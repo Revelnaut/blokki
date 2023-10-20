@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://c85kf8l7uon4y"]
+[gd_scene load_steps=20 format=3 uid="uid://c85kf8l7uon4y"]
 
 [ext_resource type="TileSet" uid="uid://btbflj7yp73k6" path="res://tileset.tres" id="1_4dw0i"]
 [ext_resource type="Script" path="res://main.gd" id="1_y1t4q"]
@@ -22,6 +22,15 @@ fill_to = Vector2(0, 0)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mfogp"]
 texture = SubResource("GradientTexture2D_j0d18")
+
+[sub_resource type="LabelSettings" id="LabelSettings_ep16y"]
+font = ExtResource("6_spr4b")
+font_size = 86
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t71b6"]
+content_margin_top = 20.0
+content_margin_bottom = 20.0
+bg_color = Color(0.247059, 0.403922, 0.517647, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_mh7ae"]
 font = ExtResource("6_spr4b")
@@ -75,10 +84,10 @@ _data = {
 [node name="Main" type="Node2D"]
 script = ExtResource("1_y1t4q")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="CanvasLayer3" type="CanvasLayer" parent="."]
 layer = -1
 
-[node name="Panel" type="Panel" parent="CanvasLayer"]
+[node name="Panel" type="Panel" parent="CanvasLayer3"]
 self_modulate = Color(0.811765, 0.996078, 1, 1)
 anchors_preset = 15
 anchor_right = 1.0
@@ -87,6 +96,43 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_mfogp")
+
+[node name="CanvasLayer2" type="CanvasLayer" parent="."]
+
+[node name="GameOverPanel" type="Panel" parent="CanvasLayer2"]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer2/GameOverPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer2/GameOverPanel/CenterContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer2/GameOverPanel/CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Game Over"
+label_settings = SubResource("LabelSettings_ep16y")
+
+[node name="Button" type="Button" parent="CanvasLayer2/GameOverPanel/CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("6_spr4b")
+theme_override_font_sizes/font_size = 54
+theme_override_styles/normal = SubResource("StyleBoxFlat_t71b6")
+text = "Play again"
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 2
 
 [node name="Top" type="Control" parent="CanvasLayer"]
 layout_mode = 3
@@ -183,6 +229,13 @@ layer_1/y_sort_enabled = false
 layer_1/y_sort_origin = 0
 layer_1/z_index = 0
 layer_1/tile_data = PackedInt32Array()
+layer_2/name = "Test"
+layer_2/enabled = true
+layer_2/modulate = Color(1, 1, 1, 0)
+layer_2/y_sort_enabled = false
+layer_2/y_sort_origin = 0
+layer_2/z_index = 0
+layer_2/tile_data = PackedInt32Array()
 
 [node name="NextPattern" type="TileMap" parent="Game"]
 unique_name_in_owner = true
@@ -215,6 +268,7 @@ unique_name_in_owner = true
 wait_time = 0.1
 one_shot = true
 
+[connection signal="pressed" from="CanvasLayer2/GameOverPanel/CenterContainer/VBoxContainer/Button" to="." method="_on_newgame_button_pressed"]
 [connection signal="button_down" from="CanvasLayer/Top/SettingsButton" to="CanvasLayer/Top/SettingsButton" method="_on_button_down"]
 [connection signal="button_up" from="CanvasLayer/Top/SettingsButton" to="CanvasLayer/Top/SettingsButton" method="_on_button_up"]
 [connection signal="pressed" from="CanvasLayer/Top/SettingsButton" to="." method="_on_settings_button_pressed"]

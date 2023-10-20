@@ -59,7 +59,7 @@ func _unhandled_input(event):
 	if event is InputEventKey:
 		if event.pressed:
 			if event.keycode == KEY_DOWN:
-				next_random_pattern()
+				generate_random_pattern()
 			if event.keycode == KEY_UP:
 				new_game()
 
@@ -71,13 +71,18 @@ func update_placing_position(position: Vector2):
 
 func new_game():
 	%Grid.clear()
-	next_random_pattern()
-	next_random_pattern()
+	
+	# Generate two random patterns, because there are always two visible at one time
+	generate_random_pattern()
+	generate_random_pattern()
+	
 	placing_pattern = false
 	score = 0
 	high_score = high_score
+	
+	%GameOverPanel.visible = false
 
-func next_random_pattern():
+func generate_random_pattern():
 	var pattern = tileset.get_pattern(randi_range(0, tileset.get_patterns_count() - 1))
 	var tile_alternative_count = tileset.get_source(1).get_alternative_tiles_count(Vector2i(0, 0))
 	var alternative = randi_range(1, tile_alternative_count - 1)
@@ -109,7 +114,7 @@ func get_placing_position_on_grid_map():
 func get_pattern_of_next():
 	return %NextPattern.get_pattern(0, %NextPattern.get_used_cells(0))
 
-func check_full_lines():
+func remove_complete_lines():
 	var marked_for_deletion = []
 	var deleted_rows = []
 	var deleted_columns = []
@@ -188,12 +193,31 @@ func place_pattern():
 	
 	score += new_used_cells.size()
 	
-	check_full_lines()
-	
-	next_random_pattern()
+	remove_complete_lines()
+	generate_random_pattern()
+	if is_game_over():
+		%GameOverPanel.visible = true
 
 func _on_newgame_button_pressed():
 	new_game()
 
 func _on_settings_button_pressed():
 	pass # Replace with function body.
+
+func is_game_over():
+	var pattern_size = get_pattern_of_next().get_size()
+	for y in range(9 - pattern_size.y):
+		for x in range(9 - pattern_size.x):
+			%Grid.clear_layer(2)
+			%Grid.set_pattern(2, Vector2i(x, y), get_pattern_of_next())
+			var new_used_cells = %Grid.get_used_cells(2)
+			var current_used_cells = %Grid.get_used_cells(0)
+			var free_space = true
+			# Check if there's a free spot on the grid
+			for new_cell in new_used_cells:
+				if new_cell in current_used_cells:
+					free_space = false # This place was in use
+			# If a free spot was found, we can return false, as the game is not over
+			if free_space:
+				return false
+	return true
