@@ -1,7 +1,3 @@
-# BlockGame
+# blokki
 
-A very generic block puzzle game targeted towards mobile platforms. Built with Godot 4.
-
-## Attributions
-
-CoffeeTerrace font created by Khurasan https://www.creativefabrica.com/designer/khurasan/ref/53/
+A generic block puzzle game targeted towards mobile platforms. Built with Godot 4.
