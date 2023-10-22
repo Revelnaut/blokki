@@ -77,22 +77,12 @@ _data = {
 [node name="Main" type="Node2D"]
 script = ExtResource("1_y1t4q")
 
-[node name="CanvasLayer3" type="CanvasLayer" parent="."]
-layer = -1
-
-[node name="Panel" type="Panel" parent="CanvasLayer3"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-
 [node name="CanvasLayer2" type="CanvasLayer" parent="."]
 layer = 3
 
 [node name="GameOverPanel" type="Panel" parent="CanvasLayer2"]
 unique_name_in_owner = true
+visible = false
 modulate = Color(1, 1, 1, 0.862745)
 anchors_preset = 15
 anchor_right = 1.0
@@ -206,7 +196,9 @@ anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -27.0
+offset_left = 128.0
+offset_top = -81.0
+offset_right = -128.0
 grow_horizontal = 2
 grow_vertical = 0
 text = "1234567890"
@@ -217,7 +209,9 @@ horizontal_alignment = 1
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
-offset_bottom = 55.0
+offset_left = 128.0
+offset_right = -128.0
+offset_bottom = 88.0
 grow_horizontal = 2
 theme_override_constants/separation = 16
 alignment = 1
@@ -246,6 +240,16 @@ layout_mode = 2
 texture = ExtResource("7_shme8")
 expand_mode = 1
 stretch_mode = 5
+
+[node name="Bottom" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -64.0
+grow_horizontal = 2
+grow_vertical = 0
 
 [node name="Game" type="Node2D" parent="."]
 unique_name_in_owner = true

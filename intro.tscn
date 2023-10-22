@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://hhf6blw1akkt" path="res://ui/revelnaut.png" id="3_0bm8o"]
 [ext_resource type="Texture2D" uid="uid://ddkavbmppw3jn" path="res://ui/title.png" id="3_6waot"]
 
-[node name="Intro" type="Panel"]
+[node name="VBoxContainer" type="VBoxContainer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -13,28 +13,24 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_crnw0")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Title" type="TextureRect" parent="VBoxContainer"]
+[node name="Title" type="TextureRect" parent="."]
 layout_mode = 2
 size_flags_vertical = 10
 texture = ExtResource("3_6waot")
 stretch_mode = 3
 
-[node name="BlockImage" type="TextureRect" parent="VBoxContainer"]
+[node name="BlockImage" type="TextureRect" parent="."]
 layout_mode = 2
 size_flags_vertical = 6
 texture = ExtResource("2_vcphd")
 stretch_mode = 3
 
-[node name="Revelnaut" type="TextureRect" parent="VBoxContainer"]
+[node name="Revelnaut" type="TextureRect" parent="."]
 layout_mode = 2
 size_flags_vertical = 10
 texture = ExtResource("3_0bm8o")
 stretch_mode = 3
+
+[node name="Control" type="Control" parent="."]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2

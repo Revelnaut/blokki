@@ -88,12 +88,13 @@ func new_game():
 	generate_random_pattern()
 	%Grid.clear()
 	
-	
 	placing_pattern = false
 	visible_score = 0
 	score = 0
 	high_score = high_score
 	visible_high_score = high_score
+	
+	%NextPattern.position = get_pattern_default_position()
 	
 	%GameOverPanel.visible = false
 

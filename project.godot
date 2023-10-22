@@ -13,6 +13,8 @@ config_version=5
 config/name="blokki"
 run/main_scene="res://intro.tscn"
 config/features=PackedStringArray("4.1", "GL Compatibility")
+boot_splash/bg_color=Color(0.2, 0.235294, 0.341176, 1)
+boot_splash/show_image=false
 config/icon="res://ui/icon.png"
 
 [autoload]
@@ -37,5 +39,6 @@ theme/custom_font="res://ui/baloo_variation.tres"
 renderer/rendering_method="mobile"
 renderer/rendering_method.mobile="gl_compatibility"
 textures/vram_compression/import_etc2_astc=true
+environment/defaults/default_clear_color=Color(0.2, 0.235294, 0.341176, 1)
 anti_aliasing/quality/msaa_2d=1
 anti_aliasing/quality/use_debanding=true
