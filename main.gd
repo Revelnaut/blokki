@@ -50,7 +50,7 @@ func _process(delta):
 	
 	# Update score labels
 	visible_score = lerp(visible_score, float(score), 0.1)
-	visible_high_score = lerp(visible_high_score, float(high_score), 0.01)
+	visible_high_score = lerp(visible_high_score, float(high_score), 0.1)
 
 func _unhandled_input(event):
 	var global_mouse_position = get_global_mouse_position()
