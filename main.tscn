@@ -222,6 +222,7 @@ position = Vector2(-256, -256)
 tile_set = ExtResource("1_4dw0i")
 format = 2
 layer_0/name = "Blocks"
+layer_0/tile_data = PackedInt32Array(0, 1, 0, 1, 1, 65536, 2, 1, 131072, 3, 1, 196608, 4, 1, 262144, 5, 1, 327680, 6, 1, 393216, 7, 1, 524288, 65536, 1, 589824, 65537, 1, 655360, 65538, 1, 720896, 65539, 1, 786432)
 layer_1/name = "Ghost"
 layer_1/enabled = true
 layer_1/modulate = Color(1, 1, 1, 0.462745)
