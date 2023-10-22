@@ -11,7 +11,8 @@
 [ext_resource type="FontFile" uid="uid://dfvuiacej3mv4" path="res://ui/CoffeeTerrace.otf" id="6_spr4b"]
 
 [sub_resource type="Gradient" id="Gradient_ywgdr"]
-colors = PackedColorArray(0.25, 0.25, 0.25, 1, 0.38, 0.38, 0.38, 1)
+offsets = PackedFloat32Array(1)
+colors = PackedColorArray(0.38, 0.38, 0.38, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_j0d18"]
 gradient = SubResource("Gradient_ywgdr")
@@ -88,7 +89,6 @@ script = ExtResource("1_y1t4q")
 layer = -1
 
 [node name="Panel" type="Panel" parent="CanvasLayer3"]
-self_modulate = Color(0.811765, 0.996078, 1, 1)
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
