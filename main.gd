@@ -1,7 +1,7 @@
 extends Node2D
 
 @onready var destruction_line = preload("res://horizontal_destruction_line.tscn")
-@onready var tileset = preload("res://tileset.tres")
+@onready var tileset = preload("res://block/block_tileset.tres")
 @onready var ap = %AnimationPlayer
 @onready var next_pattern = %NextPattern
 @onready var next_pattern_2 = %NextPattern2
@@ -84,11 +84,12 @@ func new_game():
 
 func generate_random_pattern():
 	var pattern = tileset.get_pattern(randi_range(0, tileset.get_patterns_count() - 1))
-	var tile_alternative_count = tileset.get_source(1).get_alternative_tiles_count(Vector2i(0, 0))
-	var alternative = randi_range(1, tile_alternative_count - 1)
+	#var tile_alternative_count = tileset.get_source(1).get_alternative_tiles_count(Vector2i(0, 0))
+	#var alternative = randi_range(1, tile_alternative_count - 1)
+	var atlas_coordinate = Vector2i(randi_range(0, 3), randi_range(0, 3))
 	
 	for cell in pattern.get_used_cells():
-		pattern.set_cell(cell, 1, Vector2i(0, 0), alternative)
+		pattern.set_cell(cell, 1, atlas_coordinate, 0)
 	
 	%NextPattern.clear()
 	%NextPattern.set_pattern(0,Vector2i(0, 0),%NextPattern2.get_pattern(0, %NextPattern2.get_used_cells(0)))

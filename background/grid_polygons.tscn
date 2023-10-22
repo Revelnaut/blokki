@@ -1,197 +1,204 @@
-[gd_scene load_steps=2 format=3 uid="uid://d1tltniwtlxa1"]
+[gd_scene load_steps=3 format=3 uid="uid://d1tltniwtlxa1"]
 
 [ext_resource type="PackedScene" uid="uid://cqj4bkm562u72" path="res://background/rounded_rect_polygon.tscn" id="1_5gwdt"]
+[ext_resource type="Texture2D" uid="uid://dotnhqrv8sf3g" path="res://background/background_grid.png" id="2_b53p8"]
 
 [node name="Node2D" type="Node2D"]
 
-[node name="C01" parent="." instance=ExtResource("1_5gwdt")]
+[node name="Node2D" type="Node2D" parent="."]
+visible = false
+
+[node name="C01" parent="Node2D" instance=ExtResource("1_5gwdt")]
 position = Vector2(-224, -224)
 
-[node name="C02" parent="." instance=ExtResource("1_5gwdt")]
+[node name="C02" parent="Node2D" instance=ExtResource("1_5gwdt")]
 position = Vector2(-160, -224)
 
-[node name="C03" parent="." instance=ExtResource("1_5gwdt")]
+[node name="C03" parent="Node2D" instance=ExtResource("1_5gwdt")]
 position = Vector2(-96, -224)
 
-[node name="C04" parent="." instance=ExtResource("1_5gwdt")]
+[node name="C04" parent="Node2D" instance=ExtResource("1_5gwdt")]
 position = Vector2(-32, -224)
 
-[node name="C05" parent="." instance=ExtResource("1_5gwdt")]
+[node name="C05" parent="Node2D" instance=ExtResource("1_5gwdt")]
 position = Vector2(32, -224)
 
-[node name="C06" parent="." instance=ExtResource("1_5gwdt")]
+[node name="C06" parent="Node2D" instance=ExtResource("1_5gwdt")]
 position = Vector2(96, -224)
 
-[node name="C07" parent="." instance=ExtResource("1_5gwdt")]
+[node name="C07" parent="Node2D" instance=ExtResource("1_5gwdt")]
 position = Vector2(160, -224)
 
-[node name="C08" parent="." instance=ExtResource("1_5gwdt")]
+[node name="C08" parent="Node2D" instance=ExtResource("1_5gwdt")]
 position = Vector2(224, -224)
 
-[node name="C09" parent="." instance=ExtResource("1_5gwdt")]
+[node name="C09" parent="Node2D" instance=ExtResource("1_5gwdt")]
 position = Vector2(-224, -160)
 
-[node name="C10" parent="." instance=ExtResource("1_5gwdt")]
+[node name="C10" parent="Node2D" instance=ExtResource("1_5gwdt")]
 position = Vector2(-160, -160)
 
-[node name="C11" parent="." instance=ExtResource("1_5gwdt")]
+[node name="C11" parent="Node2D" instance=ExtResource("1_5gwdt")]
 position = Vector2(-96, -160)
 
-[node name="C12" parent="." instance=ExtResource("1_5gwdt")]
+[node name="C12" parent="Node2D" instance=ExtResource("1_5gwdt")]
 position = Vector2(-32, -160)
 
-[node name="C13" parent="." instance=ExtResource("1_5gwdt")]
+[node name="C13" parent="Node2D" instance=ExtResource("1_5gwdt")]
 position = Vector2(32, -160)
 
-[node name="C14" parent="." instance=ExtResource("1_5gwdt")]
+[node name="C14" parent="Node2D" instance=ExtResource("1_5gwdt")]
 position = Vector2(96, -160)
 
-[node name="C15" parent="." instance=ExtResource("1_5gwdt")]
+[node name="C15" parent="Node2D" instance=ExtResource("1_5gwdt")]
 position = Vector2(160, -160)
 
-[node name="C16" parent="." instance=ExtResource("1_5gwdt")]
+[node name="C16" parent="Node2D" instance=ExtResource("1_5gwdt")]
 position = Vector2(224, -160)
 
-[node name="C17" parent="." instance=ExtResource("1_5gwdt")]
+[node name="C17" parent="Node2D" instance=ExtResource("1_5gwdt")]
 position = Vector2(-224, -96)
 
-[node name="C18" parent="." instance=ExtResource("1_5gwdt")]
+[node name="C18" parent="Node2D" instance=ExtResource("1_5gwdt")]
 position = Vector2(-160, -96)
 
-[node name="C19" parent="." instance=ExtResource("1_5gwdt")]
+[node name="C19" parent="Node2D" instance=ExtResource("1_5gwdt")]
 position = Vector2(-96, -96)
 
-[node name="C20" parent="." instance=ExtResource("1_5gwdt")]
+[node name="C20" parent="Node2D" instance=ExtResource("1_5gwdt")]
 position = Vector2(-32, -96)
 
-[node name="C21" parent="." instance=ExtResource("1_5gwdt")]
+[node name="C21" parent="Node2D" instance=ExtResource("1_5gwdt")]
 position = Vector2(32, -96)
 
-[node name="C22" parent="." instance=ExtResource("1_5gwdt")]
+[node name="C22" parent="Node2D" instance=ExtResource("1_5gwdt")]
 position = Vector2(96, -96)
 
-[node name="C23" parent="." instance=ExtResource("1_5gwdt")]
+[node name="C23" parent="Node2D" instance=ExtResource("1_5gwdt")]
 position = Vector2(160, -96)
 
-[node name="C24" parent="." instance=ExtResource("1_5gwdt")]
+[node name="C24" parent="Node2D" instance=ExtResource("1_5gwdt")]
 position = Vector2(224, -96)
 
-[node name="C25" parent="." instance=ExtResource("1_5gwdt")]
+[node name="C25" parent="Node2D" instance=ExtResource("1_5gwdt")]
 position = Vector2(-224, -32)
 
-[node name="C26" parent="." instance=ExtResource("1_5gwdt")]
+[node name="C26" parent="Node2D" instance=ExtResource("1_5gwdt")]
 position = Vector2(-160, -32)
 
-[node name="C27" parent="." instance=ExtResource("1_5gwdt")]
+[node name="C27" parent="Node2D" instance=ExtResource("1_5gwdt")]
 position = Vector2(-96, -32)
 
-[node name="C28" parent="." instance=ExtResource("1_5gwdt")]
+[node name="C28" parent="Node2D" instance=ExtResource("1_5gwdt")]
 position = Vector2(-32, -32)
 
-[node name="C29" parent="." instance=ExtResource("1_5gwdt")]
+[node name="C29" parent="Node2D" instance=ExtResource("1_5gwdt")]
 position = Vector2(32, -32)
 
-[node name="C30" parent="." instance=ExtResource("1_5gwdt")]
+[node name="C30" parent="Node2D" instance=ExtResource("1_5gwdt")]
 position = Vector2(96, -32)
 
-[node name="C31" parent="." instance=ExtResource("1_5gwdt")]
+[node name="C31" parent="Node2D" instance=ExtResource("1_5gwdt")]
 position = Vector2(160, -32)
 
-[node name="C32" parent="." instance=ExtResource("1_5gwdt")]
+[node name="C32" parent="Node2D" instance=ExtResource("1_5gwdt")]
 position = Vector2(224, -32)
 
-[node name="C33" parent="." instance=ExtResource("1_5gwdt")]
+[node name="C33" parent="Node2D" instance=ExtResource("1_5gwdt")]
 position = Vector2(-224, 32)
 
-[node name="C34" parent="." instance=ExtResource("1_5gwdt")]
+[node name="C34" parent="Node2D" instance=ExtResource("1_5gwdt")]
 position = Vector2(-160, 32)
 
-[node name="C35" parent="." instance=ExtResource("1_5gwdt")]
+[node name="C35" parent="Node2D" instance=ExtResource("1_5gwdt")]
 position = Vector2(-96, 32)
 
-[node name="C36" parent="." instance=ExtResource("1_5gwdt")]
+[node name="C36" parent="Node2D" instance=ExtResource("1_5gwdt")]
 position = Vector2(-32, 32)
 
-[node name="C37" parent="." instance=ExtResource("1_5gwdt")]
+[node name="C37" parent="Node2D" instance=ExtResource("1_5gwdt")]
 position = Vector2(32, 32)
 
-[node name="C38" parent="." instance=ExtResource("1_5gwdt")]
+[node name="C38" parent="Node2D" instance=ExtResource("1_5gwdt")]
 position = Vector2(96, 32)
 
-[node name="C39" parent="." instance=ExtResource("1_5gwdt")]
+[node name="C39" parent="Node2D" instance=ExtResource("1_5gwdt")]
 position = Vector2(160, 32)
 
-[node name="C40" parent="." instance=ExtResource("1_5gwdt")]
+[node name="C40" parent="Node2D" instance=ExtResource("1_5gwdt")]
 position = Vector2(224, 32)
 
-[node name="C41" parent="." instance=ExtResource("1_5gwdt")]
+[node name="C41" parent="Node2D" instance=ExtResource("1_5gwdt")]
 position = Vector2(-224, 96)
 
-[node name="C42" parent="." instance=ExtResource("1_5gwdt")]
+[node name="C42" parent="Node2D" instance=ExtResource("1_5gwdt")]
 position = Vector2(-160, 96)
 
-[node name="C43" parent="." instance=ExtResource("1_5gwdt")]
+[node name="C43" parent="Node2D" instance=ExtResource("1_5gwdt")]
 position = Vector2(-96, 96)
 
-[node name="C44" parent="." instance=ExtResource("1_5gwdt")]
+[node name="C44" parent="Node2D" instance=ExtResource("1_5gwdt")]
 position = Vector2(-32, 96)
 
-[node name="C45" parent="." instance=ExtResource("1_5gwdt")]
+[node name="C45" parent="Node2D" instance=ExtResource("1_5gwdt")]
 position = Vector2(32, 96)
 
-[node name="C46" parent="." instance=ExtResource("1_5gwdt")]
+[node name="C46" parent="Node2D" instance=ExtResource("1_5gwdt")]
 position = Vector2(96, 96)
 
-[node name="C47" parent="." instance=ExtResource("1_5gwdt")]
+[node name="C47" parent="Node2D" instance=ExtResource("1_5gwdt")]
 position = Vector2(160, 96)
 
-[node name="C48" parent="." instance=ExtResource("1_5gwdt")]
+[node name="C48" parent="Node2D" instance=ExtResource("1_5gwdt")]
 position = Vector2(224, 96)
 
-[node name="C49" parent="." instance=ExtResource("1_5gwdt")]
+[node name="C49" parent="Node2D" instance=ExtResource("1_5gwdt")]
 position = Vector2(-224, 160)
 
-[node name="C50" parent="." instance=ExtResource("1_5gwdt")]
+[node name="C50" parent="Node2D" instance=ExtResource("1_5gwdt")]
 position = Vector2(-160, 160)
 
-[node name="C51" parent="." instance=ExtResource("1_5gwdt")]
+[node name="C51" parent="Node2D" instance=ExtResource("1_5gwdt")]
 position = Vector2(-96, 160)
 
-[node name="C52" parent="." instance=ExtResource("1_5gwdt")]
+[node name="C52" parent="Node2D" instance=ExtResource("1_5gwdt")]
 position = Vector2(-32, 160)
 
-[node name="C53" parent="." instance=ExtResource("1_5gwdt")]
+[node name="C53" parent="Node2D" instance=ExtResource("1_5gwdt")]
 position = Vector2(32, 160)
 
-[node name="C54" parent="." instance=ExtResource("1_5gwdt")]
+[node name="C54" parent="Node2D" instance=ExtResource("1_5gwdt")]
 position = Vector2(96, 160)
 
-[node name="C55" parent="." instance=ExtResource("1_5gwdt")]
+[node name="C55" parent="Node2D" instance=ExtResource("1_5gwdt")]
 position = Vector2(160, 160)
 
-[node name="C56" parent="." instance=ExtResource("1_5gwdt")]
+[node name="C56" parent="Node2D" instance=ExtResource("1_5gwdt")]
 position = Vector2(224, 160)
 
-[node name="C57" parent="." instance=ExtResource("1_5gwdt")]
+[node name="C57" parent="Node2D" instance=ExtResource("1_5gwdt")]
 position = Vector2(-224, 224)
 
-[node name="C58" parent="." instance=ExtResource("1_5gwdt")]
+[node name="C58" parent="Node2D" instance=ExtResource("1_5gwdt")]
 position = Vector2(-160, 224)
 
-[node name="C59" parent="." instance=ExtResource("1_5gwdt")]
+[node name="C59" parent="Node2D" instance=ExtResource("1_5gwdt")]
 position = Vector2(-96, 224)
 
-[node name="C60" parent="." instance=ExtResource("1_5gwdt")]
+[node name="C60" parent="Node2D" instance=ExtResource("1_5gwdt")]
 position = Vector2(-32, 224)
 
-[node name="C61" parent="." instance=ExtResource("1_5gwdt")]
+[node name="C61" parent="Node2D" instance=ExtResource("1_5gwdt")]
 position = Vector2(32, 224)
 
-[node name="C62" parent="." instance=ExtResource("1_5gwdt")]
+[node name="C62" parent="Node2D" instance=ExtResource("1_5gwdt")]
 position = Vector2(96, 224)
 
-[node name="C63" parent="." instance=ExtResource("1_5gwdt")]
+[node name="C63" parent="Node2D" instance=ExtResource("1_5gwdt")]
 position = Vector2(160, 224)
 
-[node name="C64" parent="." instance=ExtResource("1_5gwdt")]
+[node name="C64" parent="Node2D" instance=ExtResource("1_5gwdt")]
 position = Vector2(224, 224)
+
+[node name="BackgroundGrid" type="Sprite2D" parent="."]
+texture = ExtResource("2_b53p8")

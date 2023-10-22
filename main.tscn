@@ -1,6 +1,5 @@
 [gd_scene load_steps=20 format=3 uid="uid://c85kf8l7uon4y"]
 
-[ext_resource type="TileSet" uid="uid://btbflj7yp73k6" path="res://tileset.tres" id="1_4dw0i"]
 [ext_resource type="Script" path="res://main.gd" id="1_y1t4q"]
 [ext_resource type="Texture2D" uid="uid://dfisjdyqn1yk5" path="res://ui/gear.png" id="2_sobss"]
 [ext_resource type="Script" path="res://ui/settings_button.gd" id="3_id6mp"]
@@ -9,20 +8,11 @@
 [ext_resource type="Script" path="res://camera.gd" id="5_ec6j4"]
 [ext_resource type="Script" path="res://ui/reload_button.gd" id="5_go2cy"]
 [ext_resource type="FontFile" uid="uid://dfvuiacej3mv4" path="res://ui/CoffeeTerrace.otf" id="6_spr4b"]
+[ext_resource type="Texture2D" uid="uid://dcndrm085a0jl" path="res://ui/trophy.png" id="7_shme8"]
+[ext_resource type="TileSet" uid="uid://dpblb468s02nk" path="res://block/block_tileset.tres" id="8_p11fo"]
 
-[sub_resource type="Gradient" id="Gradient_ywgdr"]
-offsets = PackedFloat32Array(1)
-colors = PackedColorArray(0.38, 0.38, 0.38, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_j0d18"]
-gradient = SubResource("Gradient_ywgdr")
-width = 256
-height = 512
-fill_from = Vector2(0, 1)
-fill_to = Vector2(0, 0)
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mfogp"]
-texture = SubResource("GradientTexture2D_j0d18")
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d5pdo"]
+bg_color = Color(0.1998, 0.21735, 0.27, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_ep16y"]
 font = ExtResource("6_spr4b")
@@ -33,16 +23,19 @@ content_margin_top = 20.0
 content_margin_bottom = 20.0
 bg_color = Color(0.247059, 0.403922, 0.517647, 1)
 
-[sub_resource type="LabelSettings" id="LabelSettings_mh7ae"]
-font = ExtResource("6_spr4b")
-font_size = 50
-shadow_color = Color(0, 0, 0, 1)
+[sub_resource type="FontVariation" id="FontVariation_31arl"]
+variation_embolden = 1.0
 
-[sub_resource type="LabelSettings" id="LabelSettings_f2ubo"]
-font = ExtResource("6_spr4b")
-font_size = 25
-font_color = Color(0.882353, 0.882353, 0, 1)
+[sub_resource type="LabelSettings" id="LabelSettings_fg6iu"]
+font = SubResource("FontVariation_31arl")
+font_size = 48
+shadow_size = 3
 shadow_color = Color(0, 0, 0, 1)
+shadow_offset = Vector2(0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_1sgk7"]
+font_size = 32
+font_color = Color(0.996078, 0.827451, 0.223529, 1)
 
 [sub_resource type="Animation" id="Animation_qojdv"]
 length = 0.001
@@ -95,7 +88,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxTexture_mfogp")
+theme_override_styles/panel = SubResource("StyleBoxFlat_d5pdo")
 
 [node name="CanvasLayer2" type="CanvasLayer" parent="."]
 
@@ -179,28 +172,46 @@ anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -56.0
-offset_bottom = 1.0
+offset_top = -27.0
 grow_horizontal = 2
 grow_vertical = 0
-text = "01234"
-label_settings = SubResource("LabelSettings_mh7ae")
+text = "1234567890"
+label_settings = SubResource("LabelSettings_fg6iu")
 horizontal_alignment = 1
 
-[node name="HighScoreLabel" type="Label" parent="CanvasLayer/Top"]
-unique_name_in_owner = true
+[node name="HighScoreContainer" type="HBoxContainer" parent="CanvasLayer/Top"]
 layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -160.0
-offset_top = 32.0
-offset_right = 161.0
-offset_bottom = 62.0
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 55.0
 grow_horizontal = 2
-text = "123456"
-label_settings = SubResource("LabelSettings_f2ubo")
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="LeftTrophy" type="TextureRect" parent="CanvasLayer/Top/HighScoreContainer"]
+modulate = Color(0.996078, 0.827451, 0.223529, 1)
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+texture = ExtResource("7_shme8")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="HighScoreLabel" type="Label" parent="CanvasLayer/Top/HighScoreContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 1
+text = "12354596"
+label_settings = SubResource("LabelSettings_1sgk7")
 horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RightTrophy" type="TextureRect" parent="CanvasLayer/Top/HighScoreContainer"]
+modulate = Color(0.996078, 0.827451, 0.223529, 1)
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+texture = ExtResource("7_shme8")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="Game" type="Node2D" parent="."]
 unique_name_in_owner = true
@@ -208,7 +219,7 @@ position = Vector2(0, 128)
 
 [node name="GridContainer" parent="Game" instance=ExtResource("4_v7h3p")]
 unique_name_in_owner = true
-position = Vector2(288, 288)
+position = Vector2(288, 290)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Game/GridContainer"]
 unique_name_in_owner = true
@@ -218,11 +229,10 @@ libraries = {
 
 [node name="Grid" type="TileMap" parent="Game/GridContainer"]
 unique_name_in_owner = true
-position = Vector2(-256, -256)
-tile_set = ExtResource("1_4dw0i")
+position = Vector2(-256, -258)
+tile_set = ExtResource("8_p11fo")
 format = 2
 layer_0/name = "Blocks"
-layer_0/tile_data = PackedInt32Array(0, 1, 0, 1, 1, 65536, 2, 1, 131072, 3, 1, 196608, 4, 1, 262144, 5, 1, 327680, 6, 1, 393216, 7, 1, 524288, 65536, 1, 589824, 65537, 1, 655360, 65538, 1, 720896, 65539, 1, 786432)
 layer_1/name = "Ghost"
 layer_1/enabled = true
 layer_1/modulate = Color(1, 1, 1, 0.462745)
@@ -241,7 +251,7 @@ layer_2/tile_data = PackedInt32Array()
 [node name="NextPattern" type="TileMap" parent="Game"]
 unique_name_in_owner = true
 position = Vector2(288, 608)
-tile_set = ExtResource("1_4dw0i")
+tile_set = ExtResource("8_p11fo")
 cell_quadrant_size = 8
 format = 2
 
@@ -249,7 +259,7 @@ format = 2
 unique_name_in_owner = true
 self_modulate = Color(1, 1, 1, 0.254902)
 position = Vector2(289, 608)
-tile_set = ExtResource("1_4dw0i")
+tile_set = ExtResource("8_p11fo")
 cell_quadrant_size = 8
 format = 2
 
