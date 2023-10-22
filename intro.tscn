@@ -1,22 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://0xinyyxyvos8"]
+[gd_scene load_steps=5 format=3 uid="uid://0xinyyxyvos8"]
 
 [ext_resource type="Script" path="res://intro.gd" id="1_crnw0"]
-[ext_resource type="FontFile" uid="uid://dfvuiacej3mv4" path="res://ui/CoffeeTerrace.otf" id="1_eq5c8"]
 [ext_resource type="Texture2D" uid="uid://cwhu43ghsxyuv" path="res://ui/adaptive_icon_foreground.png" id="2_vcphd"]
+[ext_resource type="Texture2D" uid="uid://hhf6blw1akkt" path="res://ui/revelnaut.png" id="3_0bm8o"]
 [ext_resource type="Texture2D" uid="uid://ddkavbmppw3jn" path="res://ui/title.png" id="3_6waot"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hyydt"]
-bg_color = Color(0, 0, 0, 1)
-
-[sub_resource type="LabelSettings" id="LabelSettings_a3mx7"]
-font = ExtResource("1_eq5c8")
-font_size = 90
-outline_color = Color(0, 0, 0, 1)
-shadow_size = 7
-shadow_color = Color(0, 0, 0, 1)
-
-[node name="Intro" type="Control"]
-layout_mode = 3
+[node name="Intro" type="Panel"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -24,16 +13,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_crnw0")
 
-[node name="Panel" type="Panel" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_hyydt")
-
-[node name="CenterContainer" type="CenterContainer" parent="Panel"]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -41,30 +21,20 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Panel/CenterContainer"]
+[node name="Title" type="TextureRect" parent="VBoxContainer"]
 layout_mode = 2
+size_flags_vertical = 10
+texture = ExtResource("3_6waot")
+stretch_mode = 3
 
-[node name="Label" type="Label" parent="Panel/CenterContainer/VBoxContainer"]
+[node name="BlockImage" type="TextureRect" parent="VBoxContainer"]
 layout_mode = 2
-text = "BLOQUES
-"
-label_settings = SubResource("LabelSettings_a3mx7")
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="TextureRect" type="TextureRect" parent="Panel/CenterContainer/VBoxContainer"]
-layout_mode = 2
+size_flags_vertical = 6
 texture = ExtResource("2_vcphd")
 stretch_mode = 3
 
-[node name="TextureRect" type="TextureRect" parent="."]
-layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -94.0
-grow_horizontal = 2
-grow_vertical = 0
-texture = ExtResource("3_6waot")
+[node name="Revelnaut" type="TextureRect" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 10
+texture = ExtResource("3_0bm8o")
 stretch_mode = 3

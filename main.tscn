@@ -1,27 +1,26 @@
 [gd_scene load_steps=20 format=3 uid="uid://c85kf8l7uon4y"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_y1t4q"]
+[ext_resource type="FontVariation" uid="uid://ni0eviaje0cq" path="res://ui/baloo_variation.tres" id="2_ovkuy"]
 [ext_resource type="Texture2D" uid="uid://dfisjdyqn1yk5" path="res://ui/gear.png" id="2_sobss"]
 [ext_resource type="Script" path="res://ui/settings_button.gd" id="3_id6mp"]
 [ext_resource type="Texture2D" uid="uid://dvc8mh3n1n8lb" path="res://ui/reload.png" id="4_pj028"]
 [ext_resource type="PackedScene" uid="uid://d1tltniwtlxa1" path="res://background/grid_polygons.tscn" id="4_v7h3p"]
 [ext_resource type="Script" path="res://camera.gd" id="5_ec6j4"]
 [ext_resource type="Script" path="res://ui/reload_button.gd" id="5_go2cy"]
-[ext_resource type="FontFile" uid="uid://dfvuiacej3mv4" path="res://ui/CoffeeTerrace.otf" id="6_spr4b"]
 [ext_resource type="Texture2D" uid="uid://dcndrm085a0jl" path="res://ui/trophy.png" id="7_shme8"]
 [ext_resource type="TileSet" uid="uid://dpblb468s02nk" path="res://block/block_tileset.tres" id="8_p11fo"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d5pdo"]
-bg_color = Color(0.1998, 0.21735, 0.27, 1)
+[sub_resource type="FontVariation" id="FontVariation_trqdd"]
+base_font = ExtResource("2_ovkuy")
+variation_embolden = 1.0
 
-[sub_resource type="LabelSettings" id="LabelSettings_ep16y"]
-font = ExtResource("6_spr4b")
-font_size = 86
+[sub_resource type="LabelSettings" id="LabelSettings_talrs"]
+font = SubResource("FontVariation_trqdd")
+font_size = 48
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t71b6"]
-content_margin_top = 20.0
-content_margin_bottom = 20.0
-bg_color = Color(0.247059, 0.403922, 0.517647, 1)
+[sub_resource type="LabelSettings" id="LabelSettings_gsabr"]
+font_size = 24
 
 [sub_resource type="FontVariation" id="FontVariation_31arl"]
 variation_embolden = 1.0
@@ -88,41 +87,76 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_d5pdo")
 
 [node name="CanvasLayer2" type="CanvasLayer" parent="."]
+layer = 3
 
 [node name="GameOverPanel" type="Panel" parent="CanvasLayer2"]
 unique_name_in_owner = true
-visible = false
+modulate = Color(1, 1, 1, 0.862745)
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer2/GameOverPanel"]
+[node name="Panel" type="Panel" parent="CanvasLayer2/GameOverPanel"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = -16.0
+offset_top = 256.0
+offset_right = 16.0
+offset_bottom = 576.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer2/GameOverPanel/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 32.0
+offset_right = -32.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="CanvasLayer2/GameOverPanel/Panel/VBoxContainer"]
+layout_mode = 2
+text = "Game Over"
+label_settings = SubResource("LabelSettings_talrs")
+horizontal_alignment = 1
+uppercase = true
+
+[node name="Label2" type="Label" parent="CanvasLayer2/GameOverPanel/Panel/VBoxContainer"]
+layout_mode = 2
+text = "No more space on the grid for the next block!"
+label_settings = SubResource("LabelSettings_gsabr")
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Label3" type="Label" parent="CanvasLayer2/GameOverPanel/Panel/VBoxContainer"]
+layout_mode = 2
+text = "Your final score was:"
+label_settings = SubResource("LabelSettings_gsabr")
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="GameOverScore" type="Label" parent="CanvasLayer2/GameOverPanel/Panel/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "1234567890"
+label_settings = SubResource("LabelSettings_fg6iu")
+horizontal_alignment = 1
+
+[node name="TextureButton" type="TextureButton" parent="CanvasLayer2/GameOverPanel"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer2/GameOverPanel/CenterContainer"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="CanvasLayer2/GameOverPanel/CenterContainer/VBoxContainer"]
-layout_mode = 2
-text = "Game Over"
-label_settings = SubResource("LabelSettings_ep16y")
-
-[node name="Button" type="Button" parent="CanvasLayer2/GameOverPanel/CenterContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("6_spr4b")
-theme_override_font_sizes/font_size = 54
-theme_override_styles/normal = SubResource("StyleBoxFlat_t71b6")
-text = "Play again"
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = 2
@@ -279,7 +313,7 @@ unique_name_in_owner = true
 wait_time = 0.1
 one_shot = true
 
-[connection signal="pressed" from="CanvasLayer2/GameOverPanel/CenterContainer/VBoxContainer/Button" to="." method="_on_newgame_button_pressed"]
+[connection signal="pressed" from="CanvasLayer2/GameOverPanel/TextureButton" to="." method="_on_newgame_button_pressed"]
 [connection signal="button_down" from="CanvasLayer/Top/SettingsButton" to="CanvasLayer/Top/SettingsButton" method="_on_button_down"]
 [connection signal="button_up" from="CanvasLayer/Top/SettingsButton" to="CanvasLayer/Top/SettingsButton" method="_on_button_up"]
 [connection signal="pressed" from="CanvasLayer/Top/SettingsButton" to="." method="_on_settings_button_pressed"]

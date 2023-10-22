@@ -8,18 +8,26 @@ extends Node2D
 
 var high_score: int:
 	set(value):
-		%HighScoreLabel.text = str(value)
 		Global.settings["high_score"] = value
 	get:
 		return Global.settings["high_score"]
 
 var score: int:
 	set(value):
-		%ScoreLabel.text = str(value)
 		score = value
 		if score >= high_score:
 			high_score = score
 			Global.save_game()
+
+var visible_score: float:
+	set(value):
+		%ScoreLabel.text = str(round(value))
+		visible_score = value
+
+var visible_high_score: float:
+	set(value):
+		%HighScoreLabel.text = str(round(value))
+		visible_high_score = value
 
 var placing_pattern = false
 var placing_position: Vector2
@@ -39,6 +47,10 @@ func _process(delta):
 	else:
 		%NextPattern.position = lerp(%NextPattern.position, get_pattern_default_position(), 0.5)
 		%NextPattern.scale = lerp(%NextPattern.scale, Vector2(0.5, 0.5), 0.5)
+	
+	# Update score labels
+	visible_score = lerp(visible_score, float(score), 0.1)
+	visible_high_score = lerp(visible_high_score, float(high_score), 0.01)
 
 func _unhandled_input(event):
 	var global_mouse_position = get_global_mouse_position()
@@ -48,12 +60,13 @@ func _unhandled_input(event):
 		update_placing_position(global_mouse_position)
 	
 	if event is InputEventMouseButton:
-		if event.pressed:
-			click_position = global_mouse_position
-		else:
-			if placing_pattern:
-				place_pattern()
-		placing_pattern = event.pressed
+		if event.button_index == MOUSE_BUTTON_LEFT:
+			if event.pressed:
+				click_position = global_mouse_position
+			else:
+				if placing_pattern:
+					place_pattern()
+			placing_pattern = event.pressed
 		update_placing_position(global_mouse_position)
 	
 	if event is InputEventKey:
@@ -70,15 +83,17 @@ func update_placing_position(position: Vector2):
 		placing_position += (position - click_position) * Global.settings["gameplay_place_assist_intensity"]
 
 func new_game():
-	%Grid.clear()
-	
 	# Generate two random patterns, because there are always two visible at one time
 	generate_random_pattern()
 	generate_random_pattern()
+	%Grid.clear()
+	
 	
 	placing_pattern = false
+	visible_score = 0
 	score = 0
 	high_score = high_score
+	visible_high_score = high_score
 	
 	%GameOverPanel.visible = false
 

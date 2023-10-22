@@ -1,0 +1,12 @@
+[gd_resource type="FontVariation" load_steps=2 format=3 uid="uid://ni0eviaje0cq"]
+
+[ext_resource type="FontFile" uid="uid://d2da33qlla22n" path="res://ui/Baloo2-VariableFont_wght.ttf" id="1_e47lx"]
+
+[resource]
+base_font = ExtResource("1_e47lx")
+variation_embolden = 0.3
+opentype_features = {
+1667329140: 0
+}
+spacing_top = -6
+spacing_bottom = -6
