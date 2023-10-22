@@ -13,7 +13,7 @@ config_version=5
 config/name="Blocks"
 run/main_scene="res://main.tscn"
 config/features=PackedStringArray("4.1", "GL Compatibility")
-config/icon="res://nopes/nope3/icon.svg"
+config/icon="res://ui/icon.png"
 
 [autoload]
 

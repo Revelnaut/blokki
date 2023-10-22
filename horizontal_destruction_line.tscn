@@ -1,6 +1,42 @@
-[gd_scene load_steps=5 format=3 uid="uid://2qlx8tunm5fo"]
+[gd_scene load_steps=9 format=3 uid="uid://2qlx8tunm5fo"]
 
 [ext_resource type="Script" path="res://horizontal_destruction_line.gd" id="1_4latr"]
+
+[sub_resource type="Gradient" id="Gradient_f0bfg"]
+offsets = PackedFloat32Array(0, 0.289617, 0.710383, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_yl1fi"]
+gradient = SubResource("Gradient_f0bfg")
+width = 256
+height = 256
+
+[sub_resource type="Animation" id="Animation_hh63m"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
 
 [sub_resource type="Animation" id="Animation_320jd"]
 resource_name = "disappear"
@@ -30,43 +66,33 @@ tracks/1/keys = {
 "values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
 }
 
-[sub_resource type="Animation" id="Animation_hh63m"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:scale")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(1, 1)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 1)]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ooigd"]
 _data = {
 "RESET": SubResource("Animation_hh63m"),
 "disappear": SubResource("Animation_320jd")
 }
 
+[sub_resource type="Gradient" id="Gradient_bavjk"]
+offsets = PackedFloat32Array(0, 0.512077, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_dk44a"]
+gradient = SubResource("Gradient_bavjk")
+width = 512
+height = 48
+
 [node name="HorizontalDestructionLine" type="Node2D"]
 script = ExtResource("1_4latr")
 
+[node name="Polygon2D" type="Polygon2D" parent="."]
+visible = false
+position = Vector2(0, 32)
+texture = SubResource("GradientTexture2D_yl1fi")
+polygon = PackedVector2Array(-256, -64, -256, 0, 256, 0, 256, -64)
+uv = PackedVector2Array(-8.00002, 0, -8.00002, 256, 264, 256, 264, 0)
+
 [node name="Line" type="Line2D" parent="."]
+visible = false
 position = Vector2(-256, 0)
 points = PackedVector2Array(32, 0, 480, 0)
 width = 32.0
@@ -79,3 +105,6 @@ unique_name_in_owner = true
 libraries = {
 "": SubResource("AnimationLibrary_ooigd")
 }
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("GradientTexture2D_dk44a")
