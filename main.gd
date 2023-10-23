@@ -39,6 +39,12 @@ func _ready():
 	new_game()
 
 func _process(delta):
+	update_placing_grid()
+	# Update score labels
+	visible_score = lerp(visible_score, float(score), 0.1)
+	visible_high_score = lerp(visible_high_score, float(high_score), 0.1)
+
+func update_placing_grid():
 	%Grid.clear_layer(1)
 	if placing_pattern:
 		%NextPattern.global_position = lerp(%NextPattern.global_position, placing_position, 0.5)
@@ -47,17 +53,17 @@ func _process(delta):
 	else:
 		%NextPattern.position = lerp(%NextPattern.position, get_pattern_default_position(), 0.5)
 		%NextPattern.scale = lerp(%NextPattern.scale, Vector2(0.5, 0.5), 0.5)
-	
-	# Update score labels
-	visible_score = lerp(visible_score, float(score), 0.1)
-	visible_high_score = lerp(visible_high_score, float(high_score), 0.1)
 
 func _unhandled_input(event):
 	var global_mouse_position = get_global_mouse_position()
+	# We have to update the grid's layer 1 here to avoid accidentally placing blocks on top
+	# of each other in the next frame when the grid is updated
+	update_placing_grid()
+	update_placing_position(global_mouse_position)
+	
 	if event is InputEventMouseMotion:
 		if global_mouse_position.y > click_position.y:
-			click_position.y = global_mouse_position.y
-		update_placing_position(global_mouse_position)
+			click_position.y = global_mouse_position.y	
 	
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT:
@@ -67,7 +73,6 @@ func _unhandled_input(event):
 				if placing_pattern:
 					place_pattern()
 			placing_pattern = event.pressed
-		update_placing_position(global_mouse_position)
 	
 	if event is InputEventKey:
 		if event.pressed:
@@ -213,13 +218,17 @@ func place_pattern():
 	remove_complete_lines()
 	generate_random_pattern()
 	if is_game_over():
-		%GameOverPanel.visible = true
+		game_over()
 
 func _on_newgame_button_pressed():
 	new_game()
 
 func _on_settings_button_pressed():
 	pass # Replace with function body.
+
+func game_over():
+	%GameOverScore.text = str(score)
+	%GameOverPanel.visible = true
 
 func is_game_over():
 	var pattern_size = get_pattern_of_next().get_size()

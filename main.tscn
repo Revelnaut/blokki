@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://c85kf8l7uon4y"]
+[gd_scene load_steps=21 format=3 uid="uid://c85kf8l7uon4y"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_y1t4q"]
 [ext_resource type="FontVariation" uid="uid://ni0eviaje0cq" path="res://ui/baloo_variation.tres" id="2_ovkuy"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" path="res://camera.gd" id="5_ec6j4"]
 [ext_resource type="Script" path="res://ui/reload_button.gd" id="5_go2cy"]
 [ext_resource type="Texture2D" uid="uid://dcndrm085a0jl" path="res://ui/trophy.png" id="7_shme8"]
+[ext_resource type="Script" path="res://bottom.gd" id="8_4pu4n"]
 [ext_resource type="TileSet" uid="uid://dpblb468s02nk" path="res://block/block_tileset.tres" id="8_p11fo"]
 
 [sub_resource type="FontVariation" id="FontVariation_trqdd"]
@@ -250,6 +251,7 @@ anchor_bottom = 1.0
 offset_top = -64.0
 grow_horizontal = 2
 grow_vertical = 0
+script = ExtResource("8_4pu4n")
 
 [node name="Game" type="Node2D" parent="."]
 unique_name_in_owner = true
