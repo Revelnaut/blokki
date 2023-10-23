@@ -297,7 +297,7 @@ format = 2
 
 [node name="NextPattern2" type="TileMap" parent="Game"]
 unique_name_in_owner = true
-self_modulate = Color(1, 1, 1, 0.254902)
+self_modulate = Color(1, 1, 1, 0.501961)
 position = Vector2(289, 608)
 tile_set = ExtResource("8_p11fo")
 cell_quadrant_size = 8

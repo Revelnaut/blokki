@@ -39,6 +39,7 @@ func _ready():
 	new_game()
 
 func _process(delta):
+	update_placing_position(get_global_mouse_position())
 	update_placing_grid()
 	# Update score labels
 	visible_score = lerp(visible_score, float(score), 0.1)
@@ -59,7 +60,6 @@ func _unhandled_input(event):
 	# We have to update the grid's layer 1 here to avoid accidentally placing blocks on top
 	# of each other in the next frame when the grid is updated
 	update_placing_grid()
-	update_placing_position(global_mouse_position)
 	
 	if event is InputEventMouseMotion:
 		if global_mouse_position.y > click_position.y:
@@ -122,10 +122,10 @@ func generate_random_pattern():
 	
 	%NextPattern.position = get_pattern_default_position()
 	%NextPattern.position.y = next_pattern_position.y
-	%NextPattern.scale = Vector2(0.5, 0.5)
+	%NextPattern.scale = Vector2(0.7, 0.7)
 	
 	%NextPattern2.position = next_pattern_position
-	%NextPattern2.scale = Vector2(0.5, 0.5)
+	%NextPattern2.scale = Vector2(0.4, 0.4)
 
 func get_pattern_default_position():
 	return %NextPatternDefaultPosition.position - Vector2(pattern_rect.size.x * Global.BLOCK_SIZE.x * 0.5 / 2, 0)
