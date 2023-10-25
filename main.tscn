@@ -6,11 +6,76 @@
 [ext_resource type="Script" path="res://ui/settings_button.gd" id="3_id6mp"]
 [ext_resource type="Texture2D" uid="uid://dvc8mh3n1n8lb" path="res://ui/reload.png" id="4_pj028"]
 [ext_resource type="PackedScene" uid="uid://d1tltniwtlxa1" path="res://background/grid_polygons.tscn" id="4_v7h3p"]
-[ext_resource type="Script" path="res://camera.gd" id="5_ec6j4"]
 [ext_resource type="Script" path="res://ui/reload_button.gd" id="5_go2cy"]
 [ext_resource type="Texture2D" uid="uid://dcndrm085a0jl" path="res://ui/trophy.png" id="7_shme8"]
 [ext_resource type="Script" path="res://bottom.gd" id="8_4pu4n"]
 [ext_resource type="TileSet" uid="uid://dpblb468s02nk" path="res://block/block_tileset.tres" id="8_p11fo"]
+
+[sub_resource type="Animation" id="Animation_qojdv"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Game/GridContainer:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Game/NextContainer:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 576)]
+}
+
+[sub_resource type="Animation" id="Animation_orfpo"]
+resource_name = "boing"
+length = 0.2
+step = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Game/GridContainer:scale")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(0.103527, 1, 2.54912),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(0.99, 0.99), Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_bxwgd"]
+resource_name = "game_over_next_block"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Game/NextContainer:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 576), Vector2(0, 500), Vector2(0, 2000)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_munat"]
+_data = {
+"RESET": SubResource("Animation_qojdv"),
+"boing": SubResource("Animation_orfpo"),
+"game_over_next_block": SubResource("Animation_bxwgd")
+}
 
 [sub_resource type="FontVariation" id="FontVariation_trqdd"]
 base_font = ExtResource("2_ovkuy")
@@ -37,46 +102,19 @@ shadow_offset = Vector2(0, 1)
 font_size = 32
 font_color = Color(0.996078, 0.827451, 0.223529, 1)
 
-[sub_resource type="Animation" id="Animation_qojdv"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:scale")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(1, 1)]
-}
-
-[sub_resource type="Animation" id="Animation_orfpo"]
-resource_name = "boing"
-length = 0.1
-step = 0.01
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:scale")
-tracks/0/interp = 2
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.05, 0.1),
-"transitions": PackedFloat32Array(0.103527, 1, 2.54912),
-"update": 0,
-"values": [Vector2(1, 1), Vector2(0.99, 0.99), Vector2(1, 1)]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_munat"]
-_data = {
-"RESET": SubResource("Animation_qojdv"),
-"boing": SubResource("Animation_orfpo")
-}
-
 [node name="Main" type="Node2D"]
 script = ExtResource("1_y1t4q")
+
+[node name="GameOverTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 0.5
+one_shot = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+unique_name_in_owner = true
+libraries = {
+"": SubResource("AnimationLibrary_munat")
+}
 
 [node name="CanvasLayer2" type="CanvasLayer" parent="."]
 layer = 3
@@ -261,12 +299,6 @@ position = Vector2(0, 128)
 unique_name_in_owner = true
 position = Vector2(288, 290)
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Game/GridContainer"]
-unique_name_in_owner = true
-libraries = {
-"": SubResource("AnimationLibrary_munat")
-}
-
 [node name="Grid" type="TileMap" parent="Game/GridContainer"]
 unique_name_in_owner = true
 position = Vector2(-256, -258)
@@ -288,37 +320,39 @@ layer_2/y_sort_origin = 0
 layer_2/z_index = 0
 layer_2/tile_data = PackedInt32Array()
 
-[node name="NextPattern" type="TileMap" parent="Game"]
+[node name="NextContainer" type="Node2D" parent="Game"]
 unique_name_in_owner = true
-position = Vector2(288, 608)
+position = Vector2(0, 576)
+
+[node name="NextPattern" type="TileMap" parent="Game/NextContainer"]
+unique_name_in_owner = true
+position = Vector2(288, 32)
+scale = Vector2(0.5, 0.5)
 tile_set = ExtResource("8_p11fo")
 cell_quadrant_size = 8
 format = 2
+layer_0/tile_data = PackedInt32Array(0, 1, 0, 65536, 1, 0, 65537, 1, 0, 131073, 1, 0)
 
-[node name="NextPattern2" type="TileMap" parent="Game"]
+[node name="NextPattern2" type="TileMap" parent="Game/NextContainer"]
 unique_name_in_owner = true
 self_modulate = Color(1, 1, 1, 0.501961)
-position = Vector2(289, 608)
+position = Vector2(288, 32)
 tile_set = ExtResource("8_p11fo")
 cell_quadrant_size = 8
 format = 2
 
-[node name="NextPatternDefaultPosition" type="Marker2D" parent="Game"]
+[node name="NextPatternDefaultPosition" type="Marker2D" parent="Game/NextContainer"]
 unique_name_in_owner = true
-position = Vector2(288, 608)
+position = Vector2(288, 32)
 
 [node name="Camera" type="Camera2D" parent="Game"]
 unique_name_in_owner = true
 position = Vector2(288, 320)
 ignore_rotation = false
 limit_top = 0
-script = ExtResource("5_ec6j4")
 
-[node name="ShakeTimer" type="Timer" parent="Game/Camera"]
-unique_name_in_owner = true
-wait_time = 0.1
-one_shot = true
-
+[connection signal="timeout" from="GameOverTimer" to="." method="_on_game_over_timer_timeout"]
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
 [connection signal="pressed" from="CanvasLayer2/GameOverPanel/TextureButton" to="." method="_on_newgame_button_pressed"]
 [connection signal="button_down" from="CanvasLayer/Top/SettingsButton" to="CanvasLayer/Top/SettingsButton" method="_on_button_down"]
 [connection signal="button_up" from="CanvasLayer/Top/SettingsButton" to="CanvasLayer/Top/SettingsButton" method="_on_button_up"]
@@ -326,4 +360,3 @@ one_shot = true
 [connection signal="button_down" from="CanvasLayer/Top/ReloadButton" to="CanvasLayer/Top/ReloadButton" method="_on_button_down"]
 [connection signal="button_up" from="CanvasLayer/Top/ReloadButton" to="CanvasLayer/Top/ReloadButton" method="_on_button_up"]
 [connection signal="pressed" from="CanvasLayer/Top/ReloadButton" to="." method="_on_newgame_button_pressed"]
-[connection signal="timeout" from="Game/Camera/ShakeTimer" to="Game/Camera" method="_on_shake_timer_timeout"]

@@ -6,7 +6,11 @@ extends Node2D
 @onready var next_pattern = %NextPattern
 @onready var next_pattern_2 = %NextPattern2
 
-var input_enabled = true
+var force_game_over = false
+var clearing_timer: float = 0
+var clearing_board = false
+var clear_position: Vector2i
+var clear_callback
 
 var high_score: int:
 	set(value):
@@ -36,9 +40,16 @@ var placing_position: Vector2
 var click_position: Vector2
 var pattern_rect: Rect2i
 
+var input_enabled: bool:
+	set(value):
+		input_enabled = value
+		if value == false:
+			placing_pattern = false
+
 func _ready():
 	Global.load_game()
 	new_game()
+	input_enabled = true
 
 func _process(delta):
 	update_placing_position(get_global_mouse_position())
@@ -46,9 +57,15 @@ func _process(delta):
 	# Update score labels
 	visible_score = lerp(visible_score, float(score), 0.1)
 	visible_high_score = lerp(visible_high_score, float(high_score), 0.1)
+	if clearing_board:
+		clearing_timer += delta
+		if clearing_timer > 0.01:
+			clearing_timer = 0
+			_clear_board_process()
 
 func update_placing_grid():
 	%Grid.clear_layer(1)
+	#if input_enabled:
 	if placing_pattern:
 		%NextPattern.global_position = lerp(%NextPattern.global_position, placing_position, 0.5)
 		%NextPattern.scale = lerp(%NextPattern.scale, Vector2(1, 1), 0.5)
@@ -58,6 +75,18 @@ func update_placing_grid():
 		%NextPattern.scale = lerp(%NextPattern.scale, Vector2(0.5, 0.5), 0.5)
 
 func _unhandled_input(event):
+	if event is InputEventKey:
+		if event.pressed:
+			if event.keycode == KEY_DOWN:
+				generate_random_pattern()
+			if event.keycode == KEY_UP:
+				new_game()
+			if event.keycode == KEY_SPACE:
+				force_game_over = true
+	
+	if input_enabled == false:
+		return
+		
 	var global_mouse_position = get_global_mouse_position()
 	# We have to update the grid's layer 1 here to avoid accidentally placing blocks on top
 	# of each other in the next frame when the grid is updated
@@ -75,13 +104,6 @@ func _unhandled_input(event):
 				if placing_pattern:
 					place_pattern()
 			placing_pattern = event.pressed
-	
-	if event is InputEventKey:
-		if event.pressed:
-			if event.keycode == KEY_DOWN:
-				generate_random_pattern()
-			if event.keycode == KEY_UP:
-				new_game()
 
 func update_placing_position(position: Vector2):
 	placing_position = position - Vector2(0, 200)
@@ -102,6 +124,7 @@ func new_game():
 	visible_high_score = high_score
 	
 	%NextPattern.position = get_pattern_default_position()
+	%NextContainer.visible = true
 	
 	%GameOverPanel.visible = false
 
@@ -212,15 +235,17 @@ func place_pattern():
 	
 	%Grid.set_pattern(0, get_placing_position_on_grid_map(), get_pattern_of_next())
 	
-	ap.speed_scale = 0.5
 	ap.play("boing")
 	
 	score += new_used_cells.size()
 	
 	remove_complete_lines()
 	generate_random_pattern()
-	if is_game_over():
-		game_over()
+	
+	if is_game_over() or force_game_over:
+		force_game_over = false
+		input_enabled = false
+		%GameOverTimer.start()
 
 func _on_newgame_button_pressed():
 	new_game()
@@ -228,9 +253,29 @@ func _on_newgame_button_pressed():
 func _on_settings_button_pressed():
 	pass # Replace with function body.
 
-func game_over():
+func open_game_over_panel():
 	%GameOverScore.text = str(score)
 	%GameOverPanel.visible = true
+	input_enabled = true
+
+func clear_board(callback):
+	clear_position = Vector2i(0, 0)
+	clear_callback = callback
+	clearing_board = true
+
+func _clear_board_process():
+	var atlas_coordinate = Vector2i(randi_range(0, 3), randi_range(0, 3))
+	%Grid.set_cell(0, clear_position, 1, atlas_coordinate)
+	
+	clear_position.x += 1
+	if clear_position.x == 8:
+		clear_position.y += 1
+		clear_position.x = 0
+	
+	if clear_position.y == 8:
+		input_enabled = true
+		clearing_board = false
+		clear_callback.call()
 
 func is_game_over():
 	var pattern_size = get_pattern_of_next().get_size()
@@ -249,3 +294,14 @@ func is_game_over():
 			if free_space:
 				return false
 	return true
+
+
+func _on_animation_player_animation_finished(anim_name):
+	if anim_name == "game_over_next_block":
+		%NextContainer.visible = false
+		ap.stop()
+
+
+func _on_game_over_timer_timeout():
+	ap.play("game_over_next_block")
+	clear_board(open_game_over_panel)
