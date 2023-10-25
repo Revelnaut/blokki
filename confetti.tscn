@@ -1,0 +1,42 @@
+[gd_scene load_steps=5 format=3 uid="uid://cfi00u1gd3xc1"]
+
+[sub_resource type="Gradient" id="Gradient_7khk7"]
+offsets = PackedFloat32Array(1)
+colors = PackedColorArray(1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_onnbk"]
+gradient = SubResource("Gradient_7khk7")
+width = 16
+height = 8
+
+[sub_resource type="Gradient" id="Gradient_idcbo"]
+offsets = PackedFloat32Array(0, 0.905629, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="Gradient" id="Gradient_c776c"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.0811258, 0.203642, 0.339404, 0.493377, 0.652318, 0.80298)
+colors = PackedColorArray(0.364706, 0.152941, 0.364706, 1, 0.694118, 0.243137, 0.32549, 1, 0.937255, 0.490196, 0.341176, 1, 1, 0.803922, 0.458824, 1, 0.654902, 0.941176, 0.439216, 1, 0.219608, 0.717647, 0.392157, 1, 0.145098, 0.443137, 0.47451, 1)
+
+[node name="Confetti" type="Node2D"]
+position = Vector2(288, 0)
+
+[node name="GPUParticles2D" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 64
+lifetime = 3.0
+one_shot = true
+texture = SubResource("GradientTexture2D_onnbk")
+emission_shape = 3
+emission_rect_extents = Vector2(288, 1)
+direction = Vector2(0, 1)
+spread = 3.0
+gravity = Vector2(0, 300)
+initial_velocity_min = 430.77
+initial_velocity_max = 430.77
+angular_velocity_min = 13.3
+angular_velocity_max = 199.96
+angle_max = 360.0
+scale_amount_max = 2.0
+color_ramp = SubResource("Gradient_idcbo")
+color_initial_ramp = SubResource("Gradient_c776c")

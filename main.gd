@@ -6,6 +6,8 @@ extends Node2D
 @onready var next_pattern = %NextPattern
 @onready var next_pattern_2 = %NextPattern2
 
+var input_enabled = true
+
 var high_score: int:
 	set(value):
 		Global.settings["high_score"] = value
@@ -63,7 +65,7 @@ func _unhandled_input(event):
 	
 	if event is InputEventMouseMotion:
 		if global_mouse_position.y > click_position.y:
-			click_position.y = global_mouse_position.y	
+			click_position.y = global_mouse_position.y
 	
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT:
