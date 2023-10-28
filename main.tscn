@@ -5,33 +5,21 @@
 [ext_resource type="Texture2D" uid="uid://dfisjdyqn1yk5" path="res://ui/gear.png" id="2_sobss"]
 [ext_resource type="Script" path="res://ui/settings_button.gd" id="3_id6mp"]
 [ext_resource type="Texture2D" uid="uid://dvc8mh3n1n8lb" path="res://ui/reload.png" id="4_pj028"]
-[ext_resource type="PackedScene" uid="uid://d1tltniwtlxa1" path="res://background/grid_polygons.tscn" id="4_v7h3p"]
 [ext_resource type="Script" path="res://ui/reload_button.gd" id="5_go2cy"]
 [ext_resource type="Texture2D" uid="uid://dcndrm085a0jl" path="res://ui/trophy.png" id="7_shme8"]
 [ext_resource type="Script" path="res://bottom.gd" id="8_4pu4n"]
 [ext_resource type="TileSet" uid="uid://dpblb468s02nk" path="res://block/block_tileset.tres" id="8_p11fo"]
+[ext_resource type="Texture2D" uid="uid://dotnhqrv8sf3g" path="res://background/background_grid.png" id="9_y5a7c"]
 
 [sub_resource type="Animation" id="Animation_qojdv"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Game/GridContainer:scale")
+tracks/0/path = NodePath("Game/NextContainer:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(1, 1)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Game/NextContainer:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
@@ -42,18 +30,6 @@ tracks/1/keys = {
 resource_name = "boing"
 length = 0.2
 step = 0.01
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Game/GridContainer:scale")
-tracks/0/interp = 2
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2),
-"transitions": PackedFloat32Array(0.103527, 1, 2.54912),
-"update": 0,
-"values": [Vector2(1, 1), Vector2(0.99, 0.99), Vector2(1, 1)]
-}
 
 [sub_resource type="Animation" id="Animation_bxwgd"]
 resource_name = "game_over_next_block"
@@ -109,6 +85,7 @@ script = ExtResource("1_y1t4q")
 unique_name_in_owner = true
 wait_time = 0.5
 one_shot = true
+autostart = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 unique_name_in_owner = true
@@ -121,7 +98,6 @@ layer = 3
 
 [node name="GameOverPanel" type="Panel" parent="CanvasLayer2"]
 unique_name_in_owner = true
-visible = false
 modulate = Color(1, 1, 1, 0.862745)
 anchors_preset = 15
 anchor_right = 1.0
@@ -295,9 +271,10 @@ script = ExtResource("8_4pu4n")
 unique_name_in_owner = true
 position = Vector2(0, 128)
 
-[node name="GridContainer" parent="Game" instance=ExtResource("4_v7h3p")]
+[node name="GridContainer" type="Sprite2D" parent="Game"]
 unique_name_in_owner = true
 position = Vector2(288, 290)
+texture = ExtResource("9_y5a7c")
 
 [node name="Grid" type="TileMap" parent="Game/GridContainer"]
 unique_name_in_owner = true

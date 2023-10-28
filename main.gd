@@ -1,16 +1,8 @@
 extends Node2D
 
-@onready var destruction_line = preload("res://horizontal_destruction_line.tscn")
+const GridFiller = preload("res://grid_filler.tscn")
+const DestructionLine = preload("res://horizontal_destruction_line.tscn")
 @onready var tileset = preload("res://block/block_tileset.tres")
-@onready var ap = %AnimationPlayer
-@onready var next_pattern = %NextPattern
-@onready var next_pattern_2 = %NextPattern2
-
-var force_game_over = false
-var clearing_timer: float = 0
-var clearing_board = false
-var clear_position: Vector2i
-var clear_callback
 
 var high_score: int:
 	set(value):
@@ -57,11 +49,6 @@ func _process(delta):
 	# Update score labels
 	visible_score = lerp(visible_score, float(score), 0.1)
 	visible_high_score = lerp(visible_high_score, float(high_score), 0.1)
-	if clearing_board:
-		clearing_timer += delta
-		if clearing_timer > 0.01:
-			clearing_timer = 0
-			_clear_board_process()
 
 func update_placing_grid():
 	%Grid.clear_layer(1)
@@ -112,6 +99,7 @@ func update_placing_position(position: Vector2):
 		placing_position += (position - click_position) * Global.settings["gameplay_place_assist_intensity"]
 
 func new_game():
+	%AnimationPlayer.stop()
 	# Generate two random patterns, because there are always two visible at one time
 	generate_random_pattern()
 	generate_random_pattern()
@@ -203,7 +191,7 @@ func remove_complete_lines():
 	for row in range(Global.GRID_SIZE.y):
 		if deleted_rows[row]:
 			# TODO: This whole section is just... bullshit. Works though.
-			var dl = destruction_line.instantiate()
+			var dl = DestructionLine.instantiate()
 			dl.position = %GridContainer.position
 			dl.position.y -= Global.BLOCK_SIZE.y * 4
 			dl.position.y += Global.BLOCK_SIZE.y / 2.0
@@ -213,7 +201,7 @@ func remove_complete_lines():
 	for col in range(Global.GRID_SIZE.x):
 		if deleted_columns[col]:
 			# TODO: This whole section is just... bullshit. Works though.
-			var dl = destruction_line.instantiate()
+			var dl = DestructionLine.instantiate()
 			dl.rotation_degrees = 90
 			dl.position = %GridContainer.position
 			dl.position.x -= Global.BLOCK_SIZE.x * 4
@@ -235,15 +223,14 @@ func place_pattern():
 	
 	%Grid.set_pattern(0, get_placing_position_on_grid_map(), get_pattern_of_next())
 	
-	ap.play("boing")
+	%AnimationPlayer.play("boing")
 	
 	score += new_used_cells.size()
 	
 	remove_complete_lines()
 	generate_random_pattern()
 	
-	if is_game_over() or force_game_over:
-		force_game_over = false
+	if is_game_over():
 		input_enabled = false
 		%GameOverTimer.start()
 
@@ -257,25 +244,6 @@ func open_game_over_panel():
 	%GameOverScore.text = str(score)
 	%GameOverPanel.visible = true
 	input_enabled = true
-
-func clear_board(callback):
-	clear_position = Vector2i(0, 0)
-	clear_callback = callback
-	clearing_board = true
-
-func _clear_board_process():
-	var atlas_coordinate = Vector2i(randi_range(0, 3), randi_range(0, 3))
-	%Grid.set_cell(0, clear_position, 1, atlas_coordinate)
-	
-	clear_position.x += 1
-	if clear_position.x == 8:
-		clear_position.y += 1
-		clear_position.x = 0
-	
-	if clear_position.y == 8:
-		input_enabled = true
-		clearing_board = false
-		clear_callback.call()
 
 func is_game_over():
 	var pattern_size = get_pattern_of_next().get_size()
@@ -295,13 +263,18 @@ func is_game_over():
 				return false
 	return true
 
-
 func _on_animation_player_animation_finished(anim_name):
 	if anim_name == "game_over_next_block":
 		%NextContainer.visible = false
-		ap.stop()
-
+		%AnimationPlayer.stop()
 
 func _on_game_over_timer_timeout():
-	ap.play("game_over_next_block")
-	clear_board(open_game_over_panel)
+	input_enabled = false
+	%AnimationPlayer.play("game_over_next_block")
+	var gf = GridFiller.instantiate()
+	gf.done.connect(func():
+		open_game_over_panel()
+		gf.queue_free()
+	)
+	%Grid.add_child(gf)
+	gf.begin_filling()
