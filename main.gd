@@ -81,8 +81,8 @@ func _unhandled_input(event):
 				generate_random_pattern()
 			if event.keycode == KEY_UP:
 				new_game()
-			if event.keycode == KEY_SPACE:
-				force_game_over = true
+			#if event.keycode == KEY_SPACE:
+				#force_game_over = true
 	
 	if input_enabled == false:
 		return
