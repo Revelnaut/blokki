@@ -241,6 +241,13 @@ func _on_settings_button_pressed():
 	pass # Replace with function body.
 
 func open_game_over_panel():
+	if score == high_score:
+		%GameOverScore.label_settings.font_color = Color("#ffcd75")
+		%GameOverScoreDescription.text = "New high score!!!"
+		%Confetti.emitting = true
+	else:
+		%GameOverScore.label_settings.font_color = Color("#f4f4f4")
+		%GameOverScoreDescription.text = "Your final score was:"
 	%GameOverScore.text = str(score)
 	%GameOverPanel.visible = true
 	input_enabled = true
@@ -272,7 +279,11 @@ func _on_game_over_timer_timeout():
 	input_enabled = false
 	%AnimationPlayer.play("game_over_next_block")
 	var gf = GridFiller.instantiate()
-	gf.done.connect(func():
+	gf.done_filling.connect(func():
+		%Grid.clear()
+		gf.begin_clearing()
+	)
+	gf.done_clearing.connect(func():
 		open_game_over_panel()
 		gf.queue_free()
 	)

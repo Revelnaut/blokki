@@ -18,10 +18,7 @@ interpolation_mode = 1
 offsets = PackedFloat32Array(0, 0.0811258, 0.203642, 0.339404, 0.493377, 0.652318, 0.80298)
 colors = PackedColorArray(0.364706, 0.152941, 0.364706, 1, 0.694118, 0.243137, 0.32549, 1, 0.937255, 0.490196, 0.341176, 1, 1, 0.803922, 0.458824, 1, 0.654902, 0.941176, 0.439216, 1, 0.219608, 0.717647, 0.392157, 1, 0.145098, 0.443137, 0.47451, 1)
 
-[node name="Confetti" type="Node2D"]
-position = Vector2(288, 0)
-
-[node name="GPUParticles2D" type="CPUParticles2D" parent="."]
+[node name="Confetti" type="CPUParticles2D"]
 emitting = false
 amount = 64
 lifetime = 3.0
