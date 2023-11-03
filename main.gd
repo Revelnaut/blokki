@@ -27,21 +27,29 @@ var visible_high_score: float:
 		%HighScoreLabel.text = str(round(value))
 		visible_high_score = value
 
-var placing_pattern = false
+var placing: bool = false
+var placing_slot: int
 var placing_position: Vector2
 var click_position: Vector2
 var pattern_rect: Rect2i
+
+var pattern_slots = []
 
 var input_enabled: bool:
 	set(value):
 		input_enabled = value
 		if value == false:
-			placing_pattern = false
+			placing = false
 
 func _ready():
 	Global.load_game()
-	new_game()
 	input_enabled = true
+	
+	pattern_slots.push_back(%PatternSlot0)
+	pattern_slots.push_back(%PatternSlot1)
+	pattern_slots.push_back(%PatternSlot2)
+	
+	new_game()
 
 func _process(delta):
 	update_placing_position(get_global_mouse_position())
@@ -52,25 +60,15 @@ func _process(delta):
 
 func update_placing_grid():
 	%Grid.clear_layer(1)
-	#if input_enabled:
-	if placing_pattern:
+	if placing:
 		%NextPattern.global_position = lerp(%NextPattern.global_position, placing_position, 0.5)
 		%NextPattern.scale = lerp(%NextPattern.scale, Vector2(1, 1), 0.5)
 		%Grid.set_pattern(1, get_placing_position_on_grid_map(), get_pattern_of_next())
 	else:
-		%NextPattern.position = lerp(%NextPattern.position, get_pattern_default_position(), 0.5)
+		%NextPattern.global_position = lerp(%NextPattern.global_position, get_pattern_default_position(), 0.5)
 		%NextPattern.scale = lerp(%NextPattern.scale, Vector2(0.5, 0.5), 0.5)
 
 func _unhandled_input(event):
-	if event is InputEventKey:
-		if event.pressed:
-			if event.keycode == KEY_DOWN:
-				generate_random_pattern()
-			if event.keycode == KEY_UP:
-				new_game()
-			#if event.keycode == KEY_SPACE:
-				#force_game_over = true
-	
 	if input_enabled == false:
 		return
 		
@@ -88,9 +86,9 @@ func _unhandled_input(event):
 			if event.pressed:
 				click_position = global_mouse_position
 			else:
-				if placing_pattern:
+				if placing:
 					place_pattern()
-			placing_pattern = event.pressed
+			placing = event.pressed
 
 func update_placing_position(position: Vector2):
 	placing_position = position - Vector2(0, 200)
@@ -101,47 +99,47 @@ func update_placing_position(position: Vector2):
 func new_game():
 	%AnimationPlayer.stop()
 	# Generate two random patterns, because there are always two visible at one time
-	generate_random_pattern()
-	generate_random_pattern()
+	for slot_number in range(pattern_slots.size()):
+		print("Generating slot ", slot_number)
+		generate_random_pattern(slot_number)
 	%Grid.clear()
 	
-	placing_pattern = false
+	placing = false
 	visible_score = 0
 	score = 0
 	high_score = high_score
 	visible_high_score = high_score
 	
-	%NextPattern.position = get_pattern_default_position()
-	%NextContainer.visible = true
+	#%NextPattern.position = get_pattern_default_position()
+	#%NextContainer.visible = true
 	
 	%GameOverPanel.visible = false
 
-func generate_random_pattern():
+func generate_random_pattern(slot):
+	var slot_tilemap = pattern_slots[slot].get_tilemap()
 	var pattern = tileset.get_pattern(randi_range(0, tileset.get_patterns_count() - 1))
-	#var tile_alternative_count = tileset.get_source(1).get_alternative_tiles_count(Vector2i(0, 0))
-	#var alternative = randi_range(1, tile_alternative_count - 1)
 	var atlas_coordinate = Vector2i(randi_range(0, 3), randi_range(0, 3))
 	
 	for cell in pattern.get_used_cells():
 		pattern.set_cell(cell, 1, atlas_coordinate, 0)
 	
-	%NextPattern.clear()
-	%NextPattern.set_pattern(0,Vector2i(0, 0),%NextPattern2.get_pattern(0, %NextPattern2.get_used_cells(0)))
-	%NextPattern2.clear()
-	%NextPattern2.set_pattern(0, Vector2i(0, 0), pattern)
-	pattern_rect = %NextPattern.get_used_rect()
+	slot_tilemap.clear()
+	slot_tilemap.set_pattern(0, Vector2i(0, 0), pattern)
+	var pattern_size = Vector2(slot_tilemap.get_used_rect().size) * Global.BLOCK_SIZE
+	print("Pattern size ", pattern_size)
+	pattern_slots[slot].offset = -pattern_size / 2 * slot_tilemap.scale
 	
-	var next_pattern_position = %NextPatternDefaultPosition.position + Vector2(-150, 150) - Vector2(%NextPattern2.get_used_rect().size.x * Global.BLOCK_SIZE.x * 0.5 / 2, 0)
-	
-	%NextPattern.position = get_pattern_default_position()
-	%NextPattern.position.y = next_pattern_position.y
-	%NextPattern.scale = Vector2(0.7, 0.7)
-	
-	%NextPattern2.position = next_pattern_position
-	%NextPattern2.scale = Vector2(0.4, 0.4)
+#	var next_pattern_position = %NextPatternDefaultPosition.position + Vector2(-150, 150) - Vector2(%NextPattern2.get_used_rect().size.x * Global.BLOCK_SIZE.x * 0.5 / 2, 0)
+#
+#	%NextPattern.position = get_pattern_default_position()
+#	%NextPattern.position.y = next_pattern_position.y
+#	%NextPattern.scale = Vector2(0.7, 0.7)
+#
+#	%NextPattern2.position = next_pattern_position
+#	%NextPattern2.scale = Vector2(0.4, 0.4)
 
 func get_pattern_default_position():
-	return %NextPatternDefaultPosition.position - Vector2(pattern_rect.size.x * Global.BLOCK_SIZE.x * 0.5 / 2, 0)
+	return pattern_slots[placing_slot].get_tilemap().global_position
 
 func get_placing_position_on_grid_map():
 	return %Grid.local_to_map(%Grid.to_local(placing_position) + Vector2(32, 32))
@@ -223,12 +221,12 @@ func place_pattern():
 	
 	%Grid.set_pattern(0, get_placing_position_on_grid_map(), get_pattern_of_next())
 	
-	%AnimationPlayer.play("boing")
+	#%AnimationPlayer.play("boing")
 	
 	score += new_used_cells.size()
 	
 	remove_complete_lines()
-	generate_random_pattern()
+	#generate_random_pattern()
 	
 	if is_game_over():
 		input_enabled = false
@@ -289,3 +287,14 @@ func _on_game_over_timer_timeout():
 	)
 	%Grid.add_child(gf)
 	gf.begin_filling()
+
+
+func _on_pattern_slot_pressed(slot_number):
+	if input_enabled == false:
+		return
+	placing_slot = slot_number
+	placing = true
+	%NextPattern.clear()
+	
+	%NextPattern.global_position = pattern_slots[slot_number].global_position
+	%NextPattern.visible = true

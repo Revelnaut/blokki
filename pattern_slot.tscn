@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://c1efrcwlaqr0k"]
+
+[ext_resource type="Script" path="res://pattern_slot.gd" id="1_6ne6p"]
+[ext_resource type="Texture2D" uid="uid://cb0pd45ya8jrh" path="res://background/pattern_background.png" id="1_mw5ta"]
+[ext_resource type="TileSet" uid="uid://dpblb468s02nk" path="res://block/block_tileset.tres" id="2_rfxpo"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_n155y"]
+size = Vector2(192, 192)
+
+[node name="PatternSlot" type="Area2D"]
+script = ExtResource("1_6ne6p")
+
+[node name="PatternBackground" type="Sprite2D" parent="."]
+texture = ExtResource("1_mw5ta")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_n155y")
+
+[node name="TileMap" type="TileMap" parent="."]
+unique_name_in_owner = true
+scale = Vector2(0.4, 0.4)
+tile_set = ExtResource("2_rfxpo")
+format = 2
+
+[connection signal="input_event" from="." to="." method="_on_input_event"]

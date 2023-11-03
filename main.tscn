@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://c85kf8l7uon4y"]
+[gd_scene load_steps=24 format=3 uid="uid://c85kf8l7uon4y"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_y1t4q"]
 [ext_resource type="FontVariation" uid="uid://ni0eviaje0cq" path="res://ui/baloo_variation.tres" id="2_ovkuy"]
@@ -11,21 +11,10 @@
 [ext_resource type="Script" path="res://bottom.gd" id="8_4pu4n"]
 [ext_resource type="TileSet" uid="uid://dpblb468s02nk" path="res://block/block_tileset.tres" id="8_p11fo"]
 [ext_resource type="Texture2D" uid="uid://dotnhqrv8sf3g" path="res://background/background_grid.png" id="9_y5a7c"]
+[ext_resource type="PackedScene" uid="uid://c1efrcwlaqr0k" path="res://pattern_slot.tscn" id="12_8x14r"]
 
 [sub_resource type="Animation" id="Animation_qojdv"]
 length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Game/NextContainer:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(0, 576)]
-}
 
 [sub_resource type="Animation" id="Animation_orfpo"]
 resource_name = "boing"
@@ -34,18 +23,6 @@ step = 0.01
 
 [sub_resource type="Animation" id="Animation_bxwgd"]
 resource_name = "game_over_next_block"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Game/NextContainer:position")
-tracks/0/interp = 2
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.2, 1),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Vector2(0, 576), Vector2(0, 500), Vector2(0, 2000)]
-}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_munat"]
 _data = {
@@ -323,36 +300,31 @@ layer_2/y_sort_origin = 0
 layer_2/z_index = 0
 layer_2/tile_data = PackedInt32Array()
 
-[node name="NextContainer" type="Node2D" parent="Game"]
-unique_name_in_owner = true
-position = Vector2(0, 576)
-
-[node name="NextPattern" type="TileMap" parent="Game/NextContainer"]
-unique_name_in_owner = true
-position = Vector2(288, 32)
-scale = Vector2(0.5, 0.5)
-tile_set = ExtResource("8_p11fo")
-cell_quadrant_size = 8
-format = 2
-layer_0/tile_data = PackedInt32Array(65534, 1, 0, 131070, 1, 0, 196606, 1, 0, 262142, 1, 0, 327678, 1, 0, 65535, 1, 0, 131071, 1, 0, 196607, 1, 0, 262143, 1, 0, 327679, 1, 0, 0, 1, 0, 65536, 1, 0, 131072, 1, 0, 196608, 1, 0, 262144, 1, 0, 1, 1, 0, 65537, 1, 0, 131073, 1, 0, 196609, 1, 0, 262145, 1, 0, 2, 1, 0, 65538, 1, 0, 131074, 1, 0, 196610, 1, 0, 262146, 1, 0, 65528, 1, 0, 131064, 1, 0, 196600, 1, 0, 262136, 1, 0, 327672, 1, 0, 65529, 1, 0, 131065, 1, 0, 196601, 1, 0, 262137, 1, 0, 327673, 1, 0, 65530, 1, 0, 131066, 1, 0, 196602, 1, 0, 262138, 1, 0, 327674, 1, 0, 65531, 1, 0, 131067, 1, 0, 196603, 1, 0, 262139, 1, 0, 327675, 1, 0, 65532, 1, 0, 131068, 1, 0, 196604, 1, 0, 262140, 1, 0, 327676, 1, 0, 4, 1, 0, 65540, 1, 0, 131076, 1, 0, 196612, 1, 0, 262148, 1, 0, 5, 1, 0, 65541, 1, 0, 131077, 1, 0, 196613, 1, 0, 262149, 1, 0, 6, 1, 0, 65542, 1, 0, 131078, 1, 0, 196614, 1, 0, 262150, 1, 0, 7, 1, 0, 65543, 1, 0, 131079, 1, 0, 196615, 1, 0, 262151, 1, 0, 8, 1, 0, 65544, 1, 0, 131080, 1, 0, 196616, 1, 0, 262152, 1, 0)
-
-[node name="NextPattern2" type="TileMap" parent="Game/NextContainer"]
-unique_name_in_owner = true
-self_modulate = Color(1, 1, 1, 0.501961)
-position = Vector2(288, 32)
-tile_set = ExtResource("8_p11fo")
-cell_quadrant_size = 8
-format = 2
-
-[node name="NextPatternDefaultPosition" type="Marker2D" parent="Game/NextContainer"]
-unique_name_in_owner = true
-position = Vector2(288, 32)
-
 [node name="Camera" type="Camera2D" parent="Game"]
 unique_name_in_owner = true
 position = Vector2(288, 320)
 ignore_rotation = false
 limit_top = 0
+
+[node name="PatternSlot0" parent="Game" instance=ExtResource("12_8x14r")]
+unique_name_in_owner = true
+position = Vector2(95, 673)
+
+[node name="PatternSlot1" parent="Game" instance=ExtResource("12_8x14r")]
+unique_name_in_owner = true
+position = Vector2(288, 672)
+slot_number = 1
+
+[node name="PatternSlot2" parent="Game" instance=ExtResource("12_8x14r")]
+unique_name_in_owner = true
+position = Vector2(480, 672)
+slot_number = 2
+
+[node name="NextPattern" type="TileMap" parent="Game"]
+unique_name_in_owner = true
+tile_set = ExtResource("8_p11fo")
+format = 2
+layer_0/tile_data = PackedInt32Array(-65538, 1, 0, 131070, 1, 0, -1, 1, 0, 65535, 1, 0, -65536, 1, 0, 0, 1, 0, -131071, 1, 0, 65537, 1, 0)
 
 [connection signal="timeout" from="GameOverTimer" to="." method="_on_game_over_timer_timeout"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
@@ -363,3 +335,6 @@ limit_top = 0
 [connection signal="button_down" from="CanvasTopUI/Top/ReloadButton" to="CanvasTopUI/Top/ReloadButton" method="_on_button_down"]
 [connection signal="button_up" from="CanvasTopUI/Top/ReloadButton" to="CanvasTopUI/Top/ReloadButton" method="_on_button_up"]
 [connection signal="pressed" from="CanvasTopUI/Top/ReloadButton" to="." method="_on_newgame_button_pressed"]
+[connection signal="pressed" from="Game/PatternSlot0" to="." method="_on_pattern_slot_pressed"]
+[connection signal="pressed" from="Game/PatternSlot1" to="." method="_on_pattern_slot_pressed"]
+[connection signal="pressed" from="Game/PatternSlot2" to="." method="_on_pattern_slot_pressed"]
