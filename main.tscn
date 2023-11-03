@@ -110,10 +110,11 @@ libraries = {
 "": SubResource("AnimationLibrary_munat")
 }
 
-[node name="CanvasLayer2" type="CanvasLayer" parent="."]
+[node name="CanvasGameOver" type="CanvasLayer" parent="."]
 layer = 3
+visible = false
 
-[node name="GameOverPanel" type="Panel" parent="CanvasLayer2"]
+[node name="GameOverPanel" type="Panel" parent="CanvasGameOver"]
 unique_name_in_owner = true
 modulate = Color(1, 1, 1, 0.862745)
 anchors_preset = 15
@@ -122,7 +123,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Panel" type="Panel" parent="CanvasLayer2/GameOverPanel"]
+[node name="Panel" type="Panel" parent="CanvasGameOver/GameOverPanel"]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -133,7 +134,7 @@ offset_bottom = 576.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer2/GameOverPanel/Panel"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasGameOver/GameOverPanel/Panel"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -145,14 +146,14 @@ grow_vertical = 2
 theme_override_constants/separation = 16
 alignment = 1
 
-[node name="GameOverLabel" type="Label" parent="CanvasLayer2/GameOverPanel/Panel/VBoxContainer"]
+[node name="GameOverLabel" type="Label" parent="CanvasGameOver/GameOverPanel/Panel/VBoxContainer"]
 layout_mode = 2
 text = "Game Over"
 label_settings = SubResource("LabelSettings_talrs")
 horizontal_alignment = 1
 uppercase = true
 
-[node name="GameOverDescription" type="Label" parent="CanvasLayer2/GameOverPanel/Panel/VBoxContainer"]
+[node name="GameOverDescription" type="Label" parent="CanvasGameOver/GameOverPanel/Panel/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "No more space on the grid for the next block!"
@@ -160,7 +161,7 @@ label_settings = SubResource("LabelSettings_gsabr")
 horizontal_alignment = 1
 autowrap_mode = 2
 
-[node name="GameOverScoreDescription" type="Label" parent="CanvasLayer2/GameOverPanel/Panel/VBoxContainer"]
+[node name="GameOverScoreDescription" type="Label" parent="CanvasGameOver/GameOverPanel/Panel/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Your final score was:"
@@ -168,14 +169,14 @@ label_settings = SubResource("LabelSettings_gsabr")
 horizontal_alignment = 1
 autowrap_mode = 2
 
-[node name="GameOverScore" type="Label" parent="CanvasLayer2/GameOverPanel/Panel/VBoxContainer"]
+[node name="GameOverScore" type="Label" parent="CanvasGameOver/GameOverPanel/Panel/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "1234567890"
 label_settings = SubResource("LabelSettings_fg6iu")
 horizontal_alignment = 1
 
-[node name="TextureButton" type="TextureButton" parent="CanvasLayer2/GameOverPanel"]
+[node name="TextureButton" type="TextureButton" parent="CanvasGameOver/GameOverPanel"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -183,21 +184,21 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Confetti" parent="CanvasLayer2" instance=ExtResource("3_8dqci")]
+[node name="Confetti" parent="CanvasGameOver" instance=ExtResource("3_8dqci")]
 unique_name_in_owner = true
 position = Vector2(288, 0)
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="CanvasTopUI" type="CanvasLayer" parent="."]
 layer = 2
 
-[node name="Top" type="Control" parent="CanvasLayer"]
+[node name="Top" type="Control" parent="CanvasTopUI"]
 layout_mode = 3
 anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 160.0
 grow_horizontal = 2
 
-[node name="SettingsButton" type="TextureButton" parent="CanvasLayer/Top"]
+[node name="SettingsButton" type="TextureButton" parent="CanvasTopUI/Top"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 1
@@ -213,7 +214,7 @@ pivot_offset = Vector2(32, 32)
 texture_normal = ExtResource("2_sobss")
 script = ExtResource("3_id6mp")
 
-[node name="ReloadButton" type="TextureButton" parent="CanvasLayer/Top"]
+[node name="ReloadButton" type="TextureButton" parent="CanvasTopUI/Top"]
 unique_name_in_owner = true
 modulate = Color(0.956863, 0.956863, 0.956863, 1)
 layout_mode = 1
@@ -229,7 +230,7 @@ pivot_offset = Vector2(32, 32)
 texture_normal = ExtResource("4_pj028")
 script = ExtResource("5_go2cy")
 
-[node name="ScoreLabel" type="Label" parent="CanvasLayer/Top"]
+[node name="ScoreLabel" type="Label" parent="CanvasTopUI/Top"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 12
@@ -245,7 +246,7 @@ text = "1234567890"
 label_settings = SubResource("LabelSettings_xul8h")
 horizontal_alignment = 1
 
-[node name="HighScoreContainer" type="HBoxContainer" parent="CanvasLayer/Top"]
+[node name="HighScoreContainer" type="HBoxContainer" parent="CanvasTopUI/Top"]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -256,7 +257,7 @@ grow_horizontal = 2
 theme_override_constants/separation = 16
 alignment = 1
 
-[node name="LeftTrophy" type="TextureRect" parent="CanvasLayer/Top/HighScoreContainer"]
+[node name="LeftTrophy" type="TextureRect" parent="CanvasTopUI/Top/HighScoreContainer"]
 modulate = Color(0.996078, 0.827451, 0.223529, 1)
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
@@ -264,7 +265,7 @@ texture = ExtResource("7_shme8")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="HighScoreLabel" type="Label" parent="CanvasLayer/Top/HighScoreContainer"]
+[node name="HighScoreLabel" type="Label" parent="CanvasTopUI/Top/HighScoreContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 1
@@ -273,7 +274,7 @@ label_settings = SubResource("LabelSettings_1sgk7")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="RightTrophy" type="TextureRect" parent="CanvasLayer/Top/HighScoreContainer"]
+[node name="RightTrophy" type="TextureRect" parent="CanvasTopUI/Top/HighScoreContainer"]
 modulate = Color(0.996078, 0.827451, 0.223529, 1)
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
@@ -281,7 +282,7 @@ texture = ExtResource("7_shme8")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Bottom" type="Control" parent="CanvasLayer"]
+[node name="Bottom" type="Control" parent="CanvasTopUI"]
 layout_mode = 3
 anchors_preset = 12
 anchor_top = 1.0
@@ -333,7 +334,7 @@ scale = Vector2(0.5, 0.5)
 tile_set = ExtResource("8_p11fo")
 cell_quadrant_size = 8
 format = 2
-layer_0/tile_data = PackedInt32Array(0, 1, 0, 65536, 1, 0, 65537, 1, 0, 131073, 1, 0)
+layer_0/tile_data = PackedInt32Array(65534, 1, 0, 131070, 1, 0, 196606, 1, 0, 262142, 1, 0, 327678, 1, 0, 65535, 1, 0, 131071, 1, 0, 196607, 1, 0, 262143, 1, 0, 327679, 1, 0, 0, 1, 0, 65536, 1, 0, 131072, 1, 0, 196608, 1, 0, 262144, 1, 0, 1, 1, 0, 65537, 1, 0, 131073, 1, 0, 196609, 1, 0, 262145, 1, 0, 2, 1, 0, 65538, 1, 0, 131074, 1, 0, 196610, 1, 0, 262146, 1, 0, 65528, 1, 0, 131064, 1, 0, 196600, 1, 0, 262136, 1, 0, 327672, 1, 0, 65529, 1, 0, 131065, 1, 0, 196601, 1, 0, 262137, 1, 0, 327673, 1, 0, 65530, 1, 0, 131066, 1, 0, 196602, 1, 0, 262138, 1, 0, 327674, 1, 0, 65531, 1, 0, 131067, 1, 0, 196603, 1, 0, 262139, 1, 0, 327675, 1, 0, 65532, 1, 0, 131068, 1, 0, 196604, 1, 0, 262140, 1, 0, 327676, 1, 0, 4, 1, 0, 65540, 1, 0, 131076, 1, 0, 196612, 1, 0, 262148, 1, 0, 5, 1, 0, 65541, 1, 0, 131077, 1, 0, 196613, 1, 0, 262149, 1, 0, 6, 1, 0, 65542, 1, 0, 131078, 1, 0, 196614, 1, 0, 262150, 1, 0, 7, 1, 0, 65543, 1, 0, 131079, 1, 0, 196615, 1, 0, 262151, 1, 0, 8, 1, 0, 65544, 1, 0, 131080, 1, 0, 196616, 1, 0, 262152, 1, 0)
 
 [node name="NextPattern2" type="TileMap" parent="Game/NextContainer"]
 unique_name_in_owner = true
@@ -355,10 +356,10 @@ limit_top = 0
 
 [connection signal="timeout" from="GameOverTimer" to="." method="_on_game_over_timer_timeout"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
-[connection signal="pressed" from="CanvasLayer2/GameOverPanel/TextureButton" to="." method="_on_newgame_button_pressed"]
-[connection signal="button_down" from="CanvasLayer/Top/SettingsButton" to="CanvasLayer/Top/SettingsButton" method="_on_button_down"]
-[connection signal="button_up" from="CanvasLayer/Top/SettingsButton" to="CanvasLayer/Top/SettingsButton" method="_on_button_up"]
-[connection signal="pressed" from="CanvasLayer/Top/SettingsButton" to="." method="_on_settings_button_pressed"]
-[connection signal="button_down" from="CanvasLayer/Top/ReloadButton" to="CanvasLayer/Top/ReloadButton" method="_on_button_down"]
-[connection signal="button_up" from="CanvasLayer/Top/ReloadButton" to="CanvasLayer/Top/ReloadButton" method="_on_button_up"]
-[connection signal="pressed" from="CanvasLayer/Top/ReloadButton" to="." method="_on_newgame_button_pressed"]
+[connection signal="pressed" from="CanvasGameOver/GameOverPanel/TextureButton" to="." method="_on_newgame_button_pressed"]
+[connection signal="button_down" from="CanvasTopUI/Top/SettingsButton" to="CanvasTopUI/Top/SettingsButton" method="_on_button_down"]
+[connection signal="button_up" from="CanvasTopUI/Top/SettingsButton" to="CanvasTopUI/Top/SettingsButton" method="_on_button_up"]
+[connection signal="pressed" from="CanvasTopUI/Top/SettingsButton" to="." method="_on_settings_button_pressed"]
+[connection signal="button_down" from="CanvasTopUI/Top/ReloadButton" to="CanvasTopUI/Top/ReloadButton" method="_on_button_down"]
+[connection signal="button_up" from="CanvasTopUI/Top/ReloadButton" to="CanvasTopUI/Top/ReloadButton" method="_on_button_up"]
+[connection signal="pressed" from="CanvasTopUI/Top/ReloadButton" to="." method="_on_newgame_button_pressed"]
