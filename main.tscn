@@ -89,7 +89,6 @@ libraries = {
 
 [node name="CanvasGameOver" type="CanvasLayer" parent="."]
 layer = 3
-visible = false
 
 [node name="GameOverPanel" type="Panel" parent="CanvasGameOver"]
 unique_name_in_owner = true
@@ -322,6 +321,7 @@ slot_number = 2
 
 [node name="NextPattern" type="TileMap" parent="Game"]
 unique_name_in_owner = true
+position = Vector2(0, -2)
 tile_set = ExtResource("8_p11fo")
 format = 2
 layer_0/tile_data = PackedInt32Array(-65538, 1, 0, 131070, 1, 0, -1, 1, 0, 65535, 1, 0, -65536, 1, 0, 0, 1, 0, -131071, 1, 0, 65537, 1, 0)

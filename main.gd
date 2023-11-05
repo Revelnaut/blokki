@@ -66,7 +66,7 @@ func update_placing_grid():
 		%Grid.set_pattern(1, get_placing_position_on_grid_map(), get_pattern_of_next())
 	else:
 		%NextPattern.global_position = lerp(%NextPattern.global_position, get_pattern_default_position(), 0.5)
-		%NextPattern.scale = lerp(%NextPattern.scale, Vector2(0.5, 0.5), 0.5)
+		%NextPattern.scale = lerp(%NextPattern.scale, Vector2(0.4, 0.4), 0.5)
 
 func _unhandled_input(event):
 	if input_enabled == false:
@@ -88,7 +88,7 @@ func _unhandled_input(event):
 			else:
 				if placing:
 					place_pattern()
-			placing = event.pressed
+				placing = false
 
 func update_placing_position(position: Vector2):
 	placing_position = position - Vector2(0, 200)
@@ -98,22 +98,21 @@ func update_placing_position(position: Vector2):
 
 func new_game():
 	%AnimationPlayer.stop()
-	# Generate two random patterns, because there are always two visible at one time
+
 	for slot_number in range(pattern_slots.size()):
 		print("Generating slot ", slot_number)
 		generate_random_pattern(slot_number)
+		
 	%Grid.clear()
-	
 	placing = false
 	visible_score = 0
 	score = 0
 	high_score = high_score
 	visible_high_score = high_score
 	
-	#%NextPattern.position = get_pattern_default_position()
-	#%NextContainer.visible = true
-	
 	%GameOverPanel.visible = false
+	%NextPattern.clear()
+	show_all_slots()
 
 func generate_random_pattern(slot):
 	var slot_tilemap = pattern_slots[slot].get_tilemap()
@@ -126,17 +125,7 @@ func generate_random_pattern(slot):
 	slot_tilemap.clear()
 	slot_tilemap.set_pattern(0, Vector2i(0, 0), pattern)
 	var pattern_size = Vector2(slot_tilemap.get_used_rect().size) * Global.BLOCK_SIZE
-	print("Pattern size ", pattern_size)
 	pattern_slots[slot].offset = -pattern_size / 2 * slot_tilemap.scale
-	
-#	var next_pattern_position = %NextPatternDefaultPosition.position + Vector2(-150, 150) - Vector2(%NextPattern2.get_used_rect().size.x * Global.BLOCK_SIZE.x * 0.5 / 2, 0)
-#
-#	%NextPattern.position = get_pattern_default_position()
-#	%NextPattern.position.y = next_pattern_position.y
-#	%NextPattern.scale = Vector2(0.7, 0.7)
-#
-#	%NextPattern2.position = next_pattern_position
-#	%NextPattern2.scale = Vector2(0.4, 0.4)
 
 func get_pattern_default_position():
 	return pattern_slots[placing_slot].get_tilemap().global_position
@@ -221,12 +210,11 @@ func place_pattern():
 	
 	%Grid.set_pattern(0, get_placing_position_on_grid_map(), get_pattern_of_next())
 	
-	#%AnimationPlayer.play("boing")
-	
 	score += new_used_cells.size()
 	
 	remove_complete_lines()
-	#generate_random_pattern()
+	generate_random_pattern(placing_slot)
+	set_next_pattern_from_slot(placing_slot)
 	
 	if is_game_over():
 		input_enabled = false
@@ -250,12 +238,13 @@ func open_game_over_panel():
 	%GameOverPanel.visible = true
 	input_enabled = true
 
-func is_game_over():
-	var pattern_size = get_pattern_of_next().get_size()
+func pattern_fits_on_grid(slot_number):
+	var pattern = pattern_slots[slot_number].get_pattern()
+	var pattern_size = pattern.get_size()
 	for y in range(9 - pattern_size.y):
 		for x in range(9 - pattern_size.x):
 			%Grid.clear_layer(2)
-			%Grid.set_pattern(2, Vector2i(x, y), get_pattern_of_next())
+			%Grid.set_pattern(2, Vector2i(x, y), pattern)
 			var new_used_cells = %Grid.get_used_cells(2)
 			var current_used_cells = %Grid.get_used_cells(0)
 			var free_space = true
@@ -265,17 +254,21 @@ func is_game_over():
 					free_space = false # This place was in use
 			# If a free spot was found, we can return false, as the game is not over
 			if free_space:
-				return false
-	return true
+				return true
+	return false
+
+func is_game_over():
+	var invalid_slot_count = 0
+	for slot_number in range(pattern_slots.size()):
+		if pattern_fits_on_grid(slot_number) == false:
+			invalid_slot_count += 1
+	return invalid_slot_count == pattern_slots.size()
 
 func _on_animation_player_animation_finished(anim_name):
-	if anim_name == "game_over_next_block":
-		%NextContainer.visible = false
-		%AnimationPlayer.stop()
+	pass
 
 func _on_game_over_timer_timeout():
 	input_enabled = false
-	%AnimationPlayer.play("game_over_next_block")
 	var gf = GridFiller.instantiate()
 	gf.done_filling.connect(func():
 		%Grid.clear()
@@ -288,13 +281,24 @@ func _on_game_over_timer_timeout():
 	%Grid.add_child(gf)
 	gf.begin_filling()
 
-
 func _on_pattern_slot_pressed(slot_number):
 	if input_enabled == false:
 		return
 	placing_slot = slot_number
 	placing = true
+	set_next_pattern_from_slot(placing_slot)
+
+func show_all_slots():
+	for slot in pattern_slots:
+		slot.get_tilemap().visible = true
+
+func hide_slot(slot_number):
+	show_all_slots()
+	pattern_slots[slot_number].get_tilemap().visible = false
+
+func set_next_pattern_from_slot(slot_number):
 	%NextPattern.clear()
-	
-	%NextPattern.global_position = pattern_slots[slot_number].global_position
-	%NextPattern.visible = true
+	%NextPattern.set_pattern(0, Vector2i(0, 0), pattern_slots[placing_slot].get_pattern())
+	%NextPattern.scale = Vector2(0.4, 0.4)
+	%NextPattern.global_position = get_pattern_default_position()
+	hide_slot(placing_slot)

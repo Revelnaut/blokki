@@ -18,3 +18,6 @@ func _on_input_event(viewport, event, shape_idx):
 
 func get_tilemap():
 	return %TileMap
+
+func get_pattern():
+	return %TileMap.get_pattern(0, %TileMap.get_used_cells(0))
