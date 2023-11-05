@@ -61,12 +61,12 @@ func _process(delta):
 func update_placing_grid():
 	%Grid.clear_layer(1)
 	if placing:
-		%NextPattern.global_position = lerp(%NextPattern.global_position, placing_position, 0.5)
-		%NextPattern.scale = lerp(%NextPattern.scale, Vector2(1, 1), 0.5)
-		%Grid.set_pattern(1, get_placing_position_on_grid_map(), get_pattern_of_next())
+		%NextPatternContainer.global_position = lerp(%NextPatternContainer.global_position, placing_position, 0.5)
+		%NextPatternContainer.scale = lerp(%NextPatternContainer.scale, Vector2(1, 1), 0.5)
+		%Grid.set_pattern(1, get_placing_position_on_grid_map(), get_next_pattern())
 	else:
-		%NextPattern.global_position = lerp(%NextPattern.global_position, get_pattern_default_position(), 0.5)
-		%NextPattern.scale = lerp(%NextPattern.scale, Vector2(0.4, 0.4), 0.5)
+		%NextPatternContainer.global_position = lerp(%NextPatternContainer.global_position, get_pattern_default_position(), 0.5)
+		%NextPatternContainer.scale = lerp(%NextPatternContainer.scale, Vector2(0.4, 0.4), 0.5)
 
 func _unhandled_input(event):
 	if input_enabled == false:
@@ -111,7 +111,7 @@ func new_game():
 	visible_high_score = high_score
 	
 	%GameOverPanel.visible = false
-	%NextPattern.clear()
+	%NextPatternTilemap.clear()
 	show_all_slots()
 
 func generate_random_pattern(slot):
@@ -125,16 +125,16 @@ func generate_random_pattern(slot):
 	slot_tilemap.clear()
 	slot_tilemap.set_pattern(0, Vector2i(0, 0), pattern)
 	var pattern_size = Vector2(slot_tilemap.get_used_rect().size) * Global.BLOCK_SIZE
-	pattern_slots[slot].offset = -pattern_size / 2 * slot_tilemap.scale
+	pattern_slots[slot].offset = -pattern_size / 2
 
 func get_pattern_default_position():
-	return pattern_slots[placing_slot].get_tilemap().global_position
+	return pattern_slots[placing_slot].global_position
 
 func get_placing_position_on_grid_map():
-	return %Grid.local_to_map(%Grid.to_local(placing_position) + Vector2(32, 32))
+	return %Grid.local_to_map(%Grid.to_local(placing_position) + Vector2(32, 32) + %NextPatternTilemap.position)
 
-func get_pattern_of_next():
-	return %NextPattern.get_pattern(0, %NextPattern.get_used_cells(0))
+func get_next_pattern():
+	return %NextPatternTilemap.get_pattern(0, %NextPatternTilemap.get_used_cells(0))
 
 func remove_complete_lines():
 	var marked_for_deletion = []
@@ -208,7 +208,7 @@ func place_pattern():
 			print("New pattern out of bounds")
 			return
 	
-	%Grid.set_pattern(0, get_placing_position_on_grid_map(), get_pattern_of_next())
+	%Grid.set_pattern(0, get_placing_position_on_grid_map(), get_next_pattern())
 	
 	score += new_used_cells.size()
 	
@@ -284,9 +284,10 @@ func _on_game_over_timer_timeout():
 func _on_pattern_slot_pressed(slot_number):
 	if input_enabled == false:
 		return
-	placing_slot = slot_number
-	placing = true
-	set_next_pattern_from_slot(placing_slot)
+	if pattern_fits_on_grid(slot_number):
+		placing_slot = slot_number
+		placing = true
+		set_next_pattern_from_slot(placing_slot)
 
 func show_all_slots():
 	for slot in pattern_slots:
@@ -297,8 +298,9 @@ func hide_slot(slot_number):
 	pattern_slots[slot_number].get_tilemap().visible = false
 
 func set_next_pattern_from_slot(slot_number):
-	%NextPattern.clear()
-	%NextPattern.set_pattern(0, Vector2i(0, 0), pattern_slots[placing_slot].get_pattern())
-	%NextPattern.scale = Vector2(0.4, 0.4)
-	%NextPattern.global_position = get_pattern_default_position()
+	%NextPatternTilemap.clear()
+	%NextPatternTilemap.set_pattern(0, Vector2i(0, 0), pattern_slots[placing_slot].get_pattern())
+	%NextPatternTilemap.position = pattern_slots[slot_number].offset
+	%NextPatternContainer.scale = Vector2(0.4, 0.4)
+	%NextPatternContainer.global_position = get_pattern_default_position()
 	hide_slot(placing_slot)

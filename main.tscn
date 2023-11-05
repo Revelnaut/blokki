@@ -92,6 +92,7 @@ layer = 3
 
 [node name="GameOverPanel" type="Panel" parent="CanvasGameOver"]
 unique_name_in_owner = true
+visible = false
 modulate = Color(1, 1, 1, 0.862745)
 anchors_preset = 15
 anchor_right = 1.0
@@ -319,7 +320,10 @@ unique_name_in_owner = true
 position = Vector2(480, 672)
 slot_number = 2
 
-[node name="NextPattern" type="TileMap" parent="Game"]
+[node name="NextPatternContainer" type="Marker2D" parent="Game"]
+unique_name_in_owner = true
+
+[node name="NextPatternTilemap" type="TileMap" parent="Game/NextPatternContainer"]
 unique_name_in_owner = true
 position = Vector2(0, -2)
 tile_set = ExtResource("8_p11fo")

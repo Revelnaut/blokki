@@ -6,7 +6,7 @@ extends Area2D
 var offset: Vector2:
 	set(value):
 		offset = value
-		%TileMap.position = offset
+		%TileMap.position = offset * %TileMap.scale
 
 signal pressed(slot_number)
 
