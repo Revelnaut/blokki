@@ -1,4 +1,7 @@
-extends Control
+extends Node
+
+func _ready():
+	%AnimationPlayer.play("icon_bounce")
 
 func _input(event):
 	if event is InputEventMouseButton:
