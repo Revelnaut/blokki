@@ -5,9 +5,16 @@ const BLOCK_SIZE = Vector2(64, 64)
 const DATA_FILE = "user://save.data"
 
 var settings = {
+	"game_ongoing": false,
 	"gameplay_place_assist": true,
 	"gameplay_place_assist_intensity": 0.6,
+	"score": 0,
 	"high_score": 0,
+	"used_cells": [],
+	"used_atlas_coords": [],
+	"slot_count": 3,
+	"slot_cells": [[], [], []],
+	"slot_atlas_coords": [[], [], []]
 }
 
 func save_game():
@@ -18,4 +25,4 @@ func load_game():
 	if not FileAccess.file_exists(DATA_FILE):
 		return
 	var save_file = FileAccess.open(DATA_FILE, FileAccess.READ)
-	settings = save_file.get_var()
+	settings.merge(save_file.get_var(), true)

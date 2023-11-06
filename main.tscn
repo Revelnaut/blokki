@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://c85kf8l7uon4y"]
+[gd_scene load_steps=23 format=3 uid="uid://c85kf8l7uon4y"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_y1t4q"]
 [ext_resource type="PackedScene" uid="uid://cpb40tuk5uh32" path="res://background.tscn" id="2_c0m1n"]
@@ -6,8 +6,6 @@
 [ext_resource type="Texture2D" uid="uid://dfisjdyqn1yk5" path="res://ui/gear.png" id="2_sobss"]
 [ext_resource type="PackedScene" uid="uid://cfi00u1gd3xc1" path="res://confetti.tscn" id="3_8dqci"]
 [ext_resource type="Script" path="res://ui/settings_button.gd" id="3_id6mp"]
-[ext_resource type="Texture2D" uid="uid://dvc8mh3n1n8lb" path="res://ui/reload.png" id="4_pj028"]
-[ext_resource type="Script" path="res://ui/reload_button.gd" id="5_go2cy"]
 [ext_resource type="Texture2D" uid="uid://dcndrm085a0jl" path="res://ui/trophy.png" id="7_shme8"]
 [ext_resource type="Script" path="res://bottom.gd" id="8_4pu4n"]
 [ext_resource type="TileSet" uid="uid://dpblb468s02nk" path="res://block/block_tileset.tres" id="8_p11fo"]
@@ -117,12 +115,11 @@ libraries = {
 "": SubResource("AnimationLibrary_munat")
 }
 
-[node name="CanvasGameOver" type="CanvasLayer" parent="."]
+[node name="CanvasUIOverlay" type="CanvasLayer" parent="."]
 layer = 3
 
-[node name="GameOverPanel" type="Panel" parent="CanvasGameOver"]
+[node name="GameOverPanel" type="Panel" parent="CanvasUIOverlay"]
 unique_name_in_owner = true
-visible = false
 modulate = Color(1, 1, 1, 0.862745)
 anchors_preset = 15
 anchor_right = 1.0
@@ -130,7 +127,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Panel" type="Panel" parent="CanvasGameOver/GameOverPanel"]
+[node name="Panel" type="Panel" parent="CanvasUIOverlay/GameOverPanel"]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -141,7 +138,7 @@ offset_bottom = 576.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasGameOver/GameOverPanel/Panel"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasUIOverlay/GameOverPanel/Panel"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -153,14 +150,14 @@ grow_vertical = 2
 theme_override_constants/separation = 16
 alignment = 1
 
-[node name="GameOverLabel" type="Label" parent="CanvasGameOver/GameOverPanel/Panel/VBoxContainer"]
+[node name="GameOverLabel" type="Label" parent="CanvasUIOverlay/GameOverPanel/Panel/VBoxContainer"]
 layout_mode = 2
 text = "Game Over"
 label_settings = SubResource("LabelSettings_talrs")
 horizontal_alignment = 1
 uppercase = true
 
-[node name="GameOverDescription" type="Label" parent="CanvasGameOver/GameOverPanel/Panel/VBoxContainer"]
+[node name="GameOverDescription" type="Label" parent="CanvasUIOverlay/GameOverPanel/Panel/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "No more space on the grid for the next block!"
@@ -168,7 +165,7 @@ label_settings = SubResource("LabelSettings_gsabr")
 horizontal_alignment = 1
 autowrap_mode = 2
 
-[node name="GameOverScoreDescription" type="Label" parent="CanvasGameOver/GameOverPanel/Panel/VBoxContainer"]
+[node name="GameOverScoreDescription" type="Label" parent="CanvasUIOverlay/GameOverPanel/Panel/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Your final score was:"
@@ -176,14 +173,14 @@ label_settings = SubResource("LabelSettings_gsabr")
 horizontal_alignment = 1
 autowrap_mode = 2
 
-[node name="GameOverScore" type="Label" parent="CanvasGameOver/GameOverPanel/Panel/VBoxContainer"]
+[node name="GameOverScore" type="Label" parent="CanvasUIOverlay/GameOverPanel/Panel/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "1234567890"
 label_settings = SubResource("LabelSettings_fg6iu")
 horizontal_alignment = 1
 
-[node name="TextureButton" type="TextureButton" parent="CanvasGameOver/GameOverPanel"]
+[node name="TextureButton" type="TextureButton" parent="CanvasUIOverlay/GameOverPanel"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -191,9 +188,30 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Confetti" parent="CanvasGameOver" instance=ExtResource("3_8dqci")]
+[node name="Confetti" parent="CanvasUIOverlay" instance=ExtResource("3_8dqci")]
 unique_name_in_owner = true
 position = Vector2(288, 0)
+
+[node name="SettingsPanel" type="Panel" parent="CanvasUIOverlay"]
+visible = false
+self_modulate = Color(1, 1, 1, 0.862745)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasUIOverlay/SettingsPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Button" type="Button" parent="CanvasUIOverlay/SettingsPanel/VBoxContainer"]
+layout_mode = 2
+text = "Restart game"
 
 [node name="CanvasTopUI" type="CanvasLayer" parent="."]
 layer = 2
@@ -219,23 +237,6 @@ grow_horizontal = 2
 pivot_offset = Vector2(32, 32)
 texture_normal = ExtResource("2_sobss")
 script = ExtResource("3_id6mp")
-
-[node name="ReloadButton" type="TextureButton" parent="CanvasTopUI/Top"]
-unique_name_in_owner = true
-visible = false
-modulate = Color(0.956863, 0.956863, 0.956863, 1)
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = 192.0
-offset_top = 32.0
-offset_right = 256.0
-offset_bottom = 96.0
-grow_horizontal = 2
-pivot_offset = Vector2(32, 32)
-texture_normal = ExtResource("4_pj028")
-script = ExtResource("5_go2cy")
 
 [node name="ScoreLabel" type="Label" parent="CanvasTopUI/Top"]
 unique_name_in_owner = true
@@ -363,13 +364,10 @@ format = 2
 
 [connection signal="timeout" from="GameOverTimer" to="." method="_on_game_over_timer_timeout"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
-[connection signal="pressed" from="CanvasGameOver/GameOverPanel/TextureButton" to="." method="_on_newgame_button_pressed"]
+[connection signal="pressed" from="CanvasUIOverlay/GameOverPanel/TextureButton" to="." method="reload_scene"]
 [connection signal="button_down" from="CanvasTopUI/Top/SettingsButton" to="CanvasTopUI/Top/SettingsButton" method="_on_button_down"]
 [connection signal="button_up" from="CanvasTopUI/Top/SettingsButton" to="CanvasTopUI/Top/SettingsButton" method="_on_button_up"]
-[connection signal="pressed" from="CanvasTopUI/Top/SettingsButton" to="." method="_on_settings_button_pressed"]
-[connection signal="button_down" from="CanvasTopUI/Top/ReloadButton" to="CanvasTopUI/Top/ReloadButton" method="_on_button_down"]
-[connection signal="button_up" from="CanvasTopUI/Top/ReloadButton" to="CanvasTopUI/Top/ReloadButton" method="_on_button_up"]
-[connection signal="pressed" from="CanvasTopUI/Top/ReloadButton" to="." method="_on_newgame_button_pressed"]
+[connection signal="pressed" from="CanvasTopUI/Top/SettingsButton" to="." method="restart_game"]
 [connection signal="pressed" from="Game/PatternSlot0" to="." method="_on_pattern_slot_pressed"]
 [connection signal="pressed" from="Game/PatternSlot1" to="." method="_on_pattern_slot_pressed"]
 [connection signal="pressed" from="Game/PatternSlot2" to="." method="_on_pattern_slot_pressed"]

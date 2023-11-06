@@ -4,6 +4,12 @@ const GridFiller = preload("res://grid_filler.tscn")
 const DestructionLine = preload("res://horizontal_destruction_line.tscn")
 @onready var tileset = preload("res://block/block_tileset.tres")
 
+var game_ongoing: bool:
+	set(value):
+		Global.settings["game_ongoing"] = value
+	get:
+		return Global.settings["game_ongoing"]
+
 var high_score: int:
 	set(value):
 		Global.settings["high_score"] = value
@@ -12,10 +18,11 @@ var high_score: int:
 
 var score: int:
 	set(value):
-		score = value
-		if score >= high_score:
-			high_score = score
-			Global.save_game()
+		Global.settings["score"] = value
+		if value >= high_score:
+			high_score = value
+	get:
+		return Global.settings["score"]
 
 var visible_score: float:
 	set(value):
@@ -49,7 +56,26 @@ func _ready():
 	pattern_slots.push_back(%PatternSlot1)
 	pattern_slots.push_back(%PatternSlot2)
 	
-	new_game()
+	for slot_number in range(pattern_slots.size()):
+		reset_slot(slot_number, game_ongoing)
+		
+	%Grid.clear()
+	placing = false
+	score = score if game_ongoing else 0
+	visible_score = score
+	visible_high_score = high_score
+	
+	%GameOverPanel.visible = false
+	%NextPatternTilemap.clear()
+	
+	# Load previously saved tiles
+	if game_ongoing:
+		var used_cells = Global.settings["used_cells"]
+		var atlas_coords = Global.settings["used_atlas_coords"]
+		for used_cell_num in range(used_cells.size()):
+			%Grid.set_cell(0, used_cells[used_cell_num], 1, atlas_coords[used_cell_num])
+		
+	show_all_slots()
 
 func _process(delta):
 	update_placing_position(get_global_mouse_position())
@@ -104,38 +130,33 @@ func update_placing_position(position: Vector2):
 	if Global.settings["gameplay_place_assist"]:
 		placing_position += (position - click_position) * Global.settings["gameplay_place_assist_intensity"]
 
-func new_game():
-	%AnimationPlayer.stop()
-
-	for slot_number in range(pattern_slots.size()):
-		print("Generating slot ", slot_number)
-		generate_random_pattern(slot_number)
+func reset_slot(slot_number, from_save_data = false):
+	var slot_tilemap = pattern_slots[slot_number].get_tilemap()
+	
+	if from_save_data:
+		var slot_cells = Global.settings["slot_cells"][slot_number]
+		var slot_atlas_coords = Global.settings["slot_atlas_coords"][slot_number]
+		for cell_num in range(slot_cells.size()):
+			pattern_slots[slot_number].get_tilemap().set_cell(0, slot_cells[cell_num], 1, slot_atlas_coords[cell_num])
+	else:
+		var pattern = tileset.get_pattern(randi_range(0, tileset.get_patterns_count() - 1))
+		var atlas_coordinate = Vector2i(randi_range(0, 3), randi_range(0, 3))
 		
-	%Grid.clear()
-	placing = false
-	visible_score = 0
-	score = 0
-	high_score = high_score
-	visible_high_score = high_score
+		for cell in pattern.get_used_cells():
+			pattern.set_cell(cell, 1, atlas_coordinate, 0)
+		
+		slot_tilemap.clear()
+		slot_tilemap.set_pattern(0, Vector2i(0, 0), pattern)
+		
+		Global.settings["slot_cells"][slot_number].clear()
+		Global.settings["slot_atlas_coords"][slot_number].clear()
+		
+		Global.settings["slot_cells"][slot_number] = slot_tilemap.get_used_cells(0)
+		for cell in slot_tilemap.get_used_cells(0):
+			Global.settings["slot_atlas_coords"][slot_number].push_back(slot_tilemap.get_cell_atlas_coords(0, cell))
 	
-	%GameOverPanel.visible = false
-	%NextPatternTilemap.clear()
-	show_all_slots()
-	for slot in range(pattern_slots.size()):
-		pattern_slots[slot].enabled = true
-
-func generate_random_pattern(slot):
-	var slot_tilemap = pattern_slots[slot].get_tilemap()
-	var pattern = tileset.get_pattern(randi_range(0, tileset.get_patterns_count() - 1))
-	var atlas_coordinate = Vector2i(randi_range(0, 3), randi_range(0, 3))
-	
-	for cell in pattern.get_used_cells():
-		pattern.set_cell(cell, 1, atlas_coordinate, 0)
-	
-	slot_tilemap.clear()
-	slot_tilemap.set_pattern(0, Vector2i(0, 0), pattern)
 	var pattern_size = Vector2(slot_tilemap.get_used_rect().size) * Global.BLOCK_SIZE
-	pattern_slots[slot].offset = -pattern_size / 2
+	pattern_slots[slot_number].offset = -pattern_size / 2
 
 func get_pattern_default_position():
 	return pattern_slots[placing_slot].global_position
@@ -220,28 +241,39 @@ func place_pattern():
 	
 	%Grid.set_pattern(0, get_placing_position_on_grid_map(), get_next_pattern())
 	
+	game_ongoing = true
+	
 	score += new_used_cells.size()
 	
 	remove_complete_lines()
-	generate_random_pattern(placing_slot)
+	reset_slot(placing_slot)
 	#set_next_pattern_from_slot(placing_slot)
 	show_all_slots()
 	%NextPatternTilemap.clear()
 	
-	for slot in range(pattern_slots.size()):
-		pattern_slots[slot].enabled = pattern_fits_on_grid(slot)
-	
 	%AnimationPlayer.play("boing")
 	
+	Global.settings["used_cells"].clear()
+	Global.settings["used_atlas_coords"].clear()
+	
 	if is_game_over():
+		game_ongoing = false
 		input_enabled = false
 		%GameOverTimer.start()
+	else:
+		Global.settings["used_cells"] = %Grid.get_used_cells(0)
+		for cell in %Grid.get_used_cells(0):
+			Global.settings["used_atlas_coords"].push_back(%Grid.get_cell_atlas_coords(0, cell))
+		
+	Global.save_game()
 
-func _on_newgame_button_pressed():
-	new_game()
+func restart_game():
+	game_ongoing = false
+	Global.save_game()
+	reload_scene()
 
-func _on_settings_button_pressed():
-	pass # Replace with function body.
+func reload_scene():
+	get_tree().reload_current_scene()
 
 func open_game_over_panel():
 	if score == high_score:
@@ -309,6 +341,8 @@ func _on_pattern_slot_pressed(slot_number):
 func show_all_slots():
 	for slot in pattern_slots:
 		slot.get_tilemap().visible = true
+	for slot in range(pattern_slots.size()):
+		pattern_slots[slot].enabled = pattern_fits_on_grid(slot)
 
 func hide_slot(slot_number):
 	show_all_slots()
