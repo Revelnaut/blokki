@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://0xinyyxyvos8"]
+[gd_scene load_steps=6 format=3 uid="uid://0xinyyxyvos8"]
 
 [ext_resource type="Script" path="res://intro.gd" id="1_crnw0"]
 [ext_resource type="Texture2D" uid="uid://cwhu43ghsxyuv" path="res://ui/adaptive_icon_foreground.png" id="2_vcphd"]
 [ext_resource type="Texture2D" uid="uid://hhf6blw1akkt" path="res://ui/revelnaut.png" id="3_0bm8o"]
 [ext_resource type="Texture2D" uid="uid://ddkavbmppw3jn" path="res://ui/title.png" id="3_6waot"]
+[ext_resource type="PackedScene" uid="uid://cpb40tuk5uh32" path="res://background.tscn" id="5_njry1"]
 
 [node name="VBoxContainer" type="VBoxContainer"]
 anchors_preset = 15
@@ -31,6 +32,11 @@ size_flags_vertical = 10
 texture = ExtResource("3_0bm8o")
 stretch_mode = 3
 
-[node name="Control" type="Control" parent="."]
+[node name="BottomMargin" type="Control" parent="."]
 custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="Background" parent="CanvasLayer" instance=ExtResource("5_njry1")]

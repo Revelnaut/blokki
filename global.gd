@@ -6,7 +6,7 @@ const DATA_FILE = "user://save.data"
 
 var settings = {
 	"gameplay_place_assist": true,
-	"gameplay_place_assist_intensity": 0.5,
+	"gameplay_place_assist_intensity": 0.6,
 	"high_score": 0,
 }
 

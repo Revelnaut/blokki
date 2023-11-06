@@ -57,6 +57,14 @@ func _process(delta):
 	# Update score labels
 	visible_score = lerp(visible_score, float(score), 0.1)
 	visible_high_score = lerp(visible_high_score, float(high_score), 0.1)
+	clip_grid()
+
+# Remove tiles outside of grid boundaries
+func clip_grid():
+	for layer in range(%Grid.get_layers_count()):
+		for tile in %Grid.get_used_cells(layer):
+			if tile.x < 0 or tile.y < 0 or tile.x > 7 or tile.y > 7:
+				%Grid.erase_cell(layer, tile)
 
 func update_placing_grid():
 	%Grid.clear_layer(1)
@@ -113,6 +121,8 @@ func new_game():
 	%GameOverPanel.visible = false
 	%NextPatternTilemap.clear()
 	show_all_slots()
+	for slot in range(pattern_slots.size()):
+		pattern_slots[slot].enabled = true
 
 func generate_random_pattern(slot):
 	var slot_tilemap = pattern_slots[slot].get_tilemap()
@@ -214,7 +224,14 @@ func place_pattern():
 	
 	remove_complete_lines()
 	generate_random_pattern(placing_slot)
-	set_next_pattern_from_slot(placing_slot)
+	#set_next_pattern_from_slot(placing_slot)
+	show_all_slots()
+	%NextPatternTilemap.clear()
+	
+	for slot in range(pattern_slots.size()):
+		pattern_slots[slot].enabled = pattern_fits_on_grid(slot)
+	
+	%AnimationPlayer.play("boing")
 	
 	if is_game_over():
 		input_enabled = false

@@ -1,6 +1,7 @@
-[gd_scene load_steps=24 format=3 uid="uid://c85kf8l7uon4y"]
+[gd_scene load_steps=25 format=3 uid="uid://c85kf8l7uon4y"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_y1t4q"]
+[ext_resource type="PackedScene" uid="uid://cpb40tuk5uh32" path="res://background.tscn" id="2_c0m1n"]
 [ext_resource type="FontVariation" uid="uid://ni0eviaje0cq" path="res://ui/baloo_variation.tres" id="2_ovkuy"]
 [ext_resource type="Texture2D" uid="uid://dfisjdyqn1yk5" path="res://ui/gear.png" id="2_sobss"]
 [ext_resource type="PackedScene" uid="uid://cfi00u1gd3xc1" path="res://confetti.tscn" id="3_8dqci"]
@@ -15,11 +16,35 @@
 
 [sub_resource type="Animation" id="Animation_qojdv"]
 length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Game/GridContainer:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
 
 [sub_resource type="Animation" id="Animation_orfpo"]
 resource_name = "boing"
 length = 0.2
 step = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Game/GridContainer:scale")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.04, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(0.99, 0.99), Vector2(1, 1)]
+}
 
 [sub_resource type="Animation" id="Animation_bxwgd"]
 resource_name = "game_over_next_block"
@@ -75,6 +100,11 @@ font_color = Color(0.996078, 0.827451, 0.223529, 1)
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_y1t4q")
+
+[node name="BackgroundLayer" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="Background" parent="BackgroundLayer" instance=ExtResource("2_c0m1n")]
 
 [node name="GameOverTimer" type="Timer" parent="."]
 unique_name_in_owner = true
@@ -177,15 +207,14 @@ grow_horizontal = 2
 
 [node name="SettingsButton" type="TextureButton" parent="CanvasTopUI/Top"]
 unique_name_in_owner = true
-visible = false
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = 192.0
-offset_top = 64.0
+offset_top = 32.0
 offset_right = 256.0
-offset_bottom = 128.0
+offset_bottom = 96.0
 grow_horizontal = 2
 pivot_offset = Vector2(32, 32)
 texture_normal = ExtResource("2_sobss")
@@ -193,6 +222,7 @@ script = ExtResource("3_id6mp")
 
 [node name="ReloadButton" type="TextureButton" parent="CanvasTopUI/Top"]
 unique_name_in_owner = true
+visible = false
 modulate = Color(0.956863, 0.956863, 0.956863, 1)
 layout_mode = 1
 anchors_preset = 5
@@ -210,13 +240,14 @@ script = ExtResource("5_go2cy")
 [node name="ScoreLabel" type="Label" parent="CanvasTopUI/Top"]
 unique_name_in_owner = true
 layout_mode = 1
-anchors_preset = 12
+anchors_preset = -1
+anchor_left = 0.5
 anchor_top = 1.0
-anchor_right = 1.0
+anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = 128.0
+offset_left = -160.0
 offset_top = -81.0
-offset_right = -128.0
+offset_right = 160.0
 grow_horizontal = 2
 grow_vertical = 0
 text = "1234567890"
@@ -225,10 +256,11 @@ horizontal_alignment = 1
 
 [node name="HighScoreContainer" type="HBoxContainer" parent="CanvasTopUI/Top"]
 layout_mode = 1
-anchors_preset = 10
-anchor_right = 1.0
-offset_left = 128.0
-offset_right = -128.0
+anchors_preset = -1
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -160.0
+offset_right = 160.0
 offset_bottom = 88.0
 grow_horizontal = 2
 theme_override_constants/separation = 16
@@ -328,7 +360,6 @@ unique_name_in_owner = true
 position = Vector2(0, -2)
 tile_set = ExtResource("8_p11fo")
 format = 2
-layer_0/tile_data = PackedInt32Array(-65538, 1, 0, 131070, 1, 0, -1, 1, 0, 65535, 1, 0, -65536, 1, 0, 0, 1, 0, -131071, 1, 0, 65537, 1, 0)
 
 [connection signal="timeout" from="GameOverTimer" to="." method="_on_game_over_timer_timeout"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

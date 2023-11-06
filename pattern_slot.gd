@@ -2,6 +2,7 @@
 extends Area2D
 
 @export var slot_number: int
+var enabled: bool = true
 
 var offset: Vector2:
 	set(value):
@@ -9,6 +10,9 @@ var offset: Vector2:
 		%TileMap.position = offset * %TileMap.scale
 
 signal pressed(slot_number)
+
+func _process(delta):
+	modulate.v = lerp(modulate.v, 1.0 if enabled else 0.5, 0.2)
 
 func _on_input_event(viewport, event, shape_idx):
 	if event is InputEventMouseButton:
