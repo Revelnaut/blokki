@@ -1,0 +1,55 @@
+[gd_resource type="Theme" load_steps=8 format=3 uid="uid://ctbkd7rd4jl75"]
+
+[ext_resource type="StyleBox" uid="uid://cbjlmmichrabm" path="res://ui/theme/styleboxes/button_stylebox_disabled.tres" id="1_7q162"]
+[ext_resource type="StyleBox" uid="uid://d20h1y480mldj" path="res://ui/theme/styleboxes/button_stylebox_normal.tres" id="2_0f6gy"]
+[ext_resource type="StyleBox" uid="uid://c5x7xf5h8q8am" path="res://ui/theme/styleboxes/button_stylebox_pressed.tres" id="3_4k3se"]
+
+[sub_resource type="FontVariation" id="FontVariation_1jfxn"]
+
+[sub_resource type="FontVariation" id="FontVariation_2ds58"]
+base_font = SubResource("FontVariation_1jfxn")
+variation_embolden = 1.0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fli8q"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ryp36"]
+bg_color = Color(0.2, 0.235294, 0.341176, 1)
+shadow_size = 9
+shadow_offset = Vector2(0, 1)
+
+[resource]
+Button/colors/font_color = Color(0.580392, 0.690196, 0.760784, 1)
+Button/colors/font_disabled_color = Color(0.101961, 0.109804, 0.172549, 1)
+Button/colors/font_focus_color = Color(0.580392, 0.690196, 0.760784, 1)
+Button/colors/font_hover_color = Color(0.580392, 0.690196, 0.760784, 1)
+Button/colors/font_hover_pressed_color = Color(1, 0.803922, 0.458824, 1)
+Button/colors/font_outline_color = Color(0.2, 0.235294, 0.341176, 1)
+Button/colors/font_pressed_color = Color(1, 0.803922, 0.458824, 1)
+Button/colors/icon_disabled_color = Color(0, 0, 0, 1)
+Button/colors/icon_focus_color = Color(0, 0, 0, 1)
+Button/colors/icon_hover_color = Color(0, 0, 0, 1)
+Button/colors/icon_hover_pressed_color = Color(0, 0, 0, 1)
+Button/colors/icon_normal_color = Color(0, 0, 0, 1)
+Button/colors/icon_pressed_color = Color(0, 0, 0, 1)
+Button/constants/h_separation = 0
+Button/constants/icon_max_width = 0
+Button/constants/outline_size = 4
+Button/font_sizes/font_size = 32
+Button/fonts/font = SubResource("FontVariation_2ds58")
+Button/styles/disabled = ExtResource("1_7q162")
+Button/styles/focus = SubResource("StyleBoxEmpty_fli8q")
+Button/styles/hover = ExtResource("2_0f6gy")
+Button/styles/normal = ExtResource("2_0f6gy")
+Button/styles/pressed = ExtResource("3_4k3se")
+Label/colors/font_color = Color(1, 1, 1, 1)
+Label/colors/font_outline_color = Color(0, 0, 0, 1)
+Label/colors/font_shadow_color = Color(0, 0, 0, 1)
+Label/constants/line_spacing = 1
+Label/constants/outline_size = 0
+Label/constants/shadow_offset_x = 0
+Label/constants/shadow_offset_y = 0
+Label/constants/shadow_outline_size = 0
+Label/font_sizes/font_size = 32
+Label/fonts/font = null
+Label/styles/normal = null
+Panel/styles/panel = SubResource("StyleBoxFlat_ryp36")

@@ -12,7 +12,7 @@ config_version=5
 
 config/name="blokki"
 run/main_scene="res://intro.tscn"
-config/features=PackedStringArray("4.1", "GL Compatibility")
+config/features=PackedStringArray("4.2", "GL Compatibility")
 boot_splash/bg_color=Color(0.2, 0.235294, 0.341176, 1)
 boot_splash/show_image=false
 config/icon="res://ui/icon.png"
@@ -31,7 +31,7 @@ window/handheld/orientation=1
 
 [gui]
 
-theme/custom="res://ui/theme.tres"
+theme/custom="res://ui/theme/theme.tres"
 theme/custom_font="res://ui/baloo_variation.tres"
 
 [rendering]
