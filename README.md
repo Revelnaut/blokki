@@ -7,4 +7,5 @@ A generic, cross-platform block puzzle game targeted towards mobile platforms. B
 ## Attributions
 
 Ionicons https://ionic.io/ionicons
+
 Godot 4 https://godotengine.org/
