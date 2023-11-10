@@ -257,19 +257,19 @@ layout_mode = 2
 theme_override_constants/separation = 32
 alignment = 1
 
-[node name="Play" type="TextureButton" parent="CanvasUIOverlay/SettingsPanel/Panel/CenterContainer/VBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(128, 128)
-layout_mode = 2
-texture_normal = ExtResource("5_c327i")
-texture_pressed = ExtResource("6_mslek")
-ignore_texture_size = true
-stretch_mode = 3
-
 [node name="Restart" type="TextureButton" parent="CanvasUIOverlay/SettingsPanel/Panel/CenterContainer/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
 texture_normal = ExtResource("7_ep07h")
 texture_pressed = ExtResource("8_quodd")
+ignore_texture_size = true
+stretch_mode = 3
+
+[node name="Play" type="TextureButton" parent="CanvasUIOverlay/SettingsPanel/Panel/CenterContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+texture_normal = ExtResource("5_c327i")
+texture_pressed = ExtResource("6_mslek")
 ignore_texture_size = true
 stretch_mode = 3
 
@@ -441,8 +441,8 @@ format = 2
 [connection signal="pressed" from="CanvasUIOverlay/GameOverPanel/Panel/VBoxContainer/Restart" to="." method="restart_game"]
 [connection signal="pressed" from="CanvasUIOverlay/SettingsPanel/SettingsBackgroundCloser" to="." method="toggle_settings"]
 [connection signal="drag_ended" from="CanvasUIOverlay/SettingsPanel/Panel/CenterContainer/VBoxContainer/DragAssist" to="." method="_on_drag_assist_drag_ended"]
-[connection signal="pressed" from="CanvasUIOverlay/SettingsPanel/Panel/CenterContainer/VBoxContainer/HBoxContainer/Play" to="." method="toggle_settings"]
 [connection signal="pressed" from="CanvasUIOverlay/SettingsPanel/Panel/CenterContainer/VBoxContainer/HBoxContainer/Restart" to="." method="restart_game"]
+[connection signal="pressed" from="CanvasUIOverlay/SettingsPanel/Panel/CenterContainer/VBoxContainer/HBoxContainer/Play" to="." method="toggle_settings"]
 [connection signal="pressed" from="CanvasTopUI/Top/SettingsButton" to="." method="toggle_settings"]
 [connection signal="pressed" from="Game/PatternSlot0" to="." method="_on_pattern_slot_pressed"]
 [connection signal="pressed" from="Game/PatternSlot1" to="." method="_on_pattern_slot_pressed"]
