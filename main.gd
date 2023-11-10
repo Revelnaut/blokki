@@ -4,6 +4,12 @@ const GridFiller = preload("res://grid_filler.tscn")
 const DestructionLine = preload("res://horizontal_destruction_line.tscn")
 @onready var tileset = preload("res://block/block_tileset.tres")
 
+var drag_assist: float:
+	set(value):
+		Global.settings["drag_assist"] = value
+	get:
+		return Global.settings["drag_assist"]
+
 var game_ongoing: bool:
 	set(value):
 		Global.settings["game_ongoing"] = value
@@ -52,6 +58,8 @@ func _ready():
 	Global.load_game()
 	input_enabled = true
 	
+	%DragAssist.value = drag_assist
+	
 	pattern_slots.push_back(%PatternSlot0)
 	pattern_slots.push_back(%PatternSlot1)
 	pattern_slots.push_back(%PatternSlot2)
@@ -78,6 +86,8 @@ func _ready():
 	show_all_slots()
 
 func _process(delta):
+	drag_assist = %DragAssist.value
+	%DragAssistLabel.text = "Assisted dragging: " + str(int(drag_assist * 100.0)) + "%"
 	update_placing_position(get_global_mouse_position())
 	update_placing_grid()
 	# Update score labels
@@ -127,8 +137,8 @@ func _unhandled_input(event):
 func update_placing_position(position: Vector2):
 	placing_position = position - Vector2(0, 200)
 	placing_position -= Vector2(pattern_rect.size.x * Global.BLOCK_SIZE.x / 2, pattern_rect.size.y * Global.BLOCK_SIZE.y)
-	if Global.settings["gameplay_place_assist"]:
-		placing_position += (position - click_position) * Global.settings["gameplay_place_assist_intensity"]
+	if drag_assist > 0.0:
+		placing_position += (position - click_position) * drag_assist
 
 func reset_slot(slot_number, from_save_data = false):
 	var slot_tilemap = pattern_slots[slot_number].get_tilemap()
@@ -267,6 +277,9 @@ func place_pattern():
 		
 	Global.save_game()
 
+func toggle_settings():
+	%SettingsPanel.visible = !%SettingsPanel.visible
+
 func restart_game():
 	game_ongoing = false
 	Global.save_game()
@@ -355,3 +368,7 @@ func set_next_pattern_from_slot(slot_number):
 	%NextPatternContainer.scale = Vector2(0.4, 0.4)
 	%NextPatternContainer.global_position = get_pattern_default_position()
 	hide_slot(placing_slot)
+
+
+func _on_drag_assist_drag_ended(value_changed):
+	Global.save_game()

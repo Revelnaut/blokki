@@ -1,16 +1,21 @@
-[gd_scene load_steps=23 format=3 uid="uid://c85kf8l7uon4y"]
+[gd_scene load_steps=28 format=3 uid="uid://c85kf8l7uon4y"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_y1t4q"]
 [ext_resource type="PackedScene" uid="uid://cpb40tuk5uh32" path="res://background.tscn" id="2_c0m1n"]
 [ext_resource type="FontVariation" uid="uid://ni0eviaje0cq" path="res://ui/baloo_variation.tres" id="2_ovkuy"]
 [ext_resource type="PackedScene" uid="uid://cfi00u1gd3xc1" path="res://confetti.tscn" id="3_8dqci"]
+[ext_resource type="Texture2D" uid="uid://bqpkuy0fmlxy2" path="res://ui/play_button.png" id="5_c327i"]
 [ext_resource type="Texture2D" uid="uid://neocpuk3f7ia" path="res://ui/settings_button.png" id="5_kvcxd"]
 [ext_resource type="Texture2D" uid="uid://cc4nhu2i7fqy8" path="res://ui/settings_button_pressed.png" id="6_2b8bq"]
+[ext_resource type="Texture2D" uid="uid://ck541enwna55o" path="res://ui/play_button_pressed.png" id="6_mslek"]
+[ext_resource type="Texture2D" uid="uid://cc5vecswl16qt" path="res://ui/reset_button.png" id="7_ep07h"]
 [ext_resource type="Texture2D" uid="uid://dcndrm085a0jl" path="res://ui/trophy.png" id="7_shme8"]
 [ext_resource type="Script" path="res://bottom.gd" id="8_4pu4n"]
 [ext_resource type="TileSet" uid="uid://dpblb468s02nk" path="res://block/block_tileset.tres" id="8_p11fo"]
+[ext_resource type="Texture2D" uid="uid://va618ejngqjh" path="res://ui/reset_button_pressed.png" id="8_quodd"]
 [ext_resource type="Texture2D" uid="uid://dotnhqrv8sf3g" path="res://background/background_grid.png" id="9_y5a7c"]
 [ext_resource type="PackedScene" uid="uid://c1efrcwlaqr0k" path="res://pattern_slot.tscn" id="12_8x14r"]
+[ext_resource type="Script" path="res://fader.gd" id="13_2vd0a"]
 
 [sub_resource type="Animation" id="Animation_qojdv"]
 length = 0.001
@@ -133,11 +138,10 @@ layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
 offset_left = -16.0
-offset_top = 256.0
+offset_top = 192.0
 offset_right = 16.0
-offset_bottom = 576.0
+offset_bottom = 640.0
 grow_horizontal = 2
-grow_vertical = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasUIOverlay/GameOverPanel/Panel"]
 layout_mode = 1
@@ -164,7 +168,6 @@ layout_mode = 2
 text = "No more space on the grid for the next block!"
 label_settings = SubResource("LabelSettings_gsabr")
 horizontal_alignment = 1
-autowrap_mode = 2
 
 [node name="GameOverScoreDescription" type="Label" parent="CanvasUIOverlay/GameOverPanel/Panel/VBoxContainer"]
 unique_name_in_owner = true
@@ -172,7 +175,6 @@ layout_mode = 2
 text = "Your final score was:"
 label_settings = SubResource("LabelSettings_gsabr")
 horizontal_alignment = 1
-autowrap_mode = 2
 
 [node name="GameOverScore" type="Label" parent="CanvasUIOverlay/GameOverPanel/Panel/VBoxContainer"]
 unique_name_in_owner = true
@@ -181,19 +183,20 @@ text = "1234567890"
 label_settings = SubResource("LabelSettings_fg6iu")
 horizontal_alignment = 1
 
-[node name="TextureButton" type="TextureButton" parent="CanvasUIOverlay/GameOverPanel"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="Restart" type="TextureButton" parent="CanvasUIOverlay/GameOverPanel/Panel/VBoxContainer"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+texture_normal = ExtResource("7_ep07h")
+texture_pressed = ExtResource("8_quodd")
+ignore_texture_size = true
+stretch_mode = 3
 
 [node name="Confetti" parent="CanvasUIOverlay" instance=ExtResource("3_8dqci")]
 unique_name_in_owner = true
 position = Vector2(288, 0)
 
 [node name="SettingsPanel" type="Panel" parent="CanvasUIOverlay"]
+unique_name_in_owner = true
 visible = false
 self_modulate = Color(1, 1, 1, 0.862745)
 anchors_preset = 15
@@ -202,16 +205,23 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="SettingsBackgroundCloser" type="TextureButton" parent="CanvasUIOverlay/SettingsPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
 [node name="Panel" type="Panel" parent="CanvasUIOverlay/SettingsPanel"]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
+anchors_preset = 14
 anchor_top = 0.5
-anchor_right = 0.5
+anchor_right = 1.0
 anchor_bottom = 0.5
-offset_left = -224.0
+offset_left = -64.0
 offset_top = -192.0
-offset_right = 224.0
+offset_right = 64.0
 offset_bottom = 192.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -226,20 +236,42 @@ grow_vertical = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasUIOverlay/SettingsPanel/Panel/CenterContainer"]
 layout_mode = 2
-theme_override_constants/separation = 20
 
-[node name="Play" type="Button" parent="CanvasUIOverlay/SettingsPanel/Panel/CenterContainer/VBoxContainer"]
+[node name="DragAssistLabel" type="Label" parent="CanvasUIOverlay/SettingsPanel/Panel/CenterContainer/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(350, 0)
 layout_mode = 2
-text = "PLAY
-"
+text = "Assisted dragging: 100%"
 
-[node name="Restart" type="Button" parent="CanvasUIOverlay/SettingsPanel/Panel/CenterContainer/VBoxContainer"]
+[node name="DragAssist" type="HSlider" parent="CanvasUIOverlay/SettingsPanel/Panel/CenterContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
-text = "RESTART GAME"
+max_value = 1.0
+step = 0.01
 
-[node name="DeleteSave" type="Button" parent="CanvasUIOverlay/SettingsPanel/Panel/CenterContainer/VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="CanvasUIOverlay/SettingsPanel/Panel/CenterContainer/VBoxContainer"]
 layout_mode = 2
-text = "DELETE SCORE"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasUIOverlay/SettingsPanel/Panel/CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 32
+alignment = 1
+
+[node name="Play" type="TextureButton" parent="CanvasUIOverlay/SettingsPanel/Panel/CenterContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+texture_normal = ExtResource("5_c327i")
+texture_pressed = ExtResource("6_mslek")
+ignore_texture_size = true
+stretch_mode = 3
+
+[node name="Restart" type="TextureButton" parent="CanvasUIOverlay/SettingsPanel/Panel/CenterContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+texture_normal = ExtResource("7_ep07h")
+texture_pressed = ExtResource("8_quodd")
+ignore_texture_size = true
+stretch_mode = 3
 
 [node name="CanvasTopUI" type="CanvasLayer" parent="."]
 layer = 2
@@ -332,6 +364,17 @@ grow_horizontal = 2
 grow_vertical = 0
 script = ExtResource("8_4pu4n")
 
+[node name="Fader" type="ColorRect" parent="CanvasTopUI"]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+script = ExtResource("13_2vd0a")
+
 [node name="Game" type="Node2D" parent="."]
 unique_name_in_owner = true
 position = Vector2(0, 128)
@@ -348,10 +391,20 @@ tile_set = ExtResource("8_p11fo")
 format = 2
 layer_0/name = "Blocks"
 layer_1/name = "Ghost"
+layer_1/enabled = true
 layer_1/modulate = Color(1, 1, 1, 0.462745)
+layer_1/y_sort_enabled = false
+layer_1/y_sort_origin = 0
+layer_1/z_index = 0
+layer_1/navigation_enabled = true
 layer_1/tile_data = PackedInt32Array()
 layer_2/name = "Test"
+layer_2/enabled = true
 layer_2/modulate = Color(1, 1, 1, 0)
+layer_2/y_sort_enabled = false
+layer_2/y_sort_origin = 0
+layer_2/z_index = 0
+layer_2/navigation_enabled = true
 layer_2/tile_data = PackedInt32Array()
 
 [node name="Camera" type="Camera2D" parent="Game"]
@@ -385,8 +438,12 @@ format = 2
 
 [connection signal="timeout" from="GameOverTimer" to="." method="_on_game_over_timer_timeout"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
-[connection signal="pressed" from="CanvasUIOverlay/GameOverPanel/TextureButton" to="." method="reload_scene"]
-[connection signal="pressed" from="CanvasTopUI/Top/SettingsButton" to="." method="restart_game"]
+[connection signal="pressed" from="CanvasUIOverlay/GameOverPanel/Panel/VBoxContainer/Restart" to="." method="restart_game"]
+[connection signal="pressed" from="CanvasUIOverlay/SettingsPanel/SettingsBackgroundCloser" to="." method="toggle_settings"]
+[connection signal="drag_ended" from="CanvasUIOverlay/SettingsPanel/Panel/CenterContainer/VBoxContainer/DragAssist" to="." method="_on_drag_assist_drag_ended"]
+[connection signal="pressed" from="CanvasUIOverlay/SettingsPanel/Panel/CenterContainer/VBoxContainer/HBoxContainer/Play" to="." method="toggle_settings"]
+[connection signal="pressed" from="CanvasUIOverlay/SettingsPanel/Panel/CenterContainer/VBoxContainer/HBoxContainer/Restart" to="." method="restart_game"]
+[connection signal="pressed" from="CanvasTopUI/Top/SettingsButton" to="." method="toggle_settings"]
 [connection signal="pressed" from="Game/PatternSlot0" to="." method="_on_pattern_slot_pressed"]
 [connection signal="pressed" from="Game/PatternSlot1" to="." method="_on_pattern_slot_pressed"]
 [connection signal="pressed" from="Game/PatternSlot2" to="." method="_on_pattern_slot_pressed"]
