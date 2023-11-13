@@ -6,7 +6,7 @@ const DATA_FILE = "user://save.data"
 
 var settings = {
 	"game_ongoing": false,
-	"drag_assist": 0.3,
+	"drag_assist": 0.4,
 	"score": 0,
 	"high_score": 0,
 	"used_cells": [],
