@@ -91,14 +91,14 @@ shadow_offset = Vector2(0, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_xul8h"]
 font = SubResource("FontVariation_31arl")
-font_size = 48
+font_size = 32
 font_color = Color(0.956863, 0.956863, 0.956863, 1)
 shadow_size = 3
 shadow_color = Color(0, 0, 0, 1)
 shadow_offset = Vector2(0, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_1sgk7"]
-font_size = 32
+font_size = 24
 font_color = Color(0.996078, 0.827451, 0.223529, 1)
 
 [node name="Main" type="Node2D"]
@@ -197,7 +197,6 @@ position = Vector2(288, 0)
 
 [node name="SettingsPanel" type="Panel" parent="CanvasUIOverlay"]
 unique_name_in_owner = true
-visible = false
 self_modulate = Color(1, 1, 1, 0.862745)
 anchors_preset = 15
 anchor_right = 1.0
@@ -252,6 +251,14 @@ step = 0.01
 [node name="HSeparator" type="HSeparator" parent="CanvasUIOverlay/SettingsPanel/Panel/CenterContainer/VBoxContainer"]
 layout_mode = 2
 
+[node name="HighScoreToggle" type="CheckButton" parent="CanvasUIOverlay/SettingsPanel/Panel/CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Show high score"
+
+[node name="ScoreToggle" type="CheckButton" parent="CanvasUIOverlay/SettingsPanel/Panel/CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Show score"
+
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasUIOverlay/SettingsPanel/Panel/CenterContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 32
@@ -280,7 +287,8 @@ layer = 2
 layout_mode = 3
 anchors_preset = 10
 anchor_right = 1.0
-offset_bottom = 160.0
+offset_top = 24.0
+offset_bottom = 184.0
 grow_horizontal = 2
 
 [node name="SettingsButton" type="TextureButton" parent="CanvasTopUI/Top"]
@@ -290,8 +298,9 @@ anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = 160.0
+offset_top = -24.0
 offset_right = 288.0
-offset_bottom = 128.0
+offset_bottom = 104.0
 grow_horizontal = 2
 pivot_offset = Vector2(96, 96)
 texture_normal = ExtResource("5_kvcxd")
@@ -322,15 +331,16 @@ anchors_preset = -1
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -160.0
+offset_top = 48.0
 offset_right = 160.0
-offset_bottom = 88.0
+offset_bottom = 82.0
 grow_horizontal = 2
 theme_override_constants/separation = 16
 alignment = 1
 
 [node name="LeftTrophy" type="TextureRect" parent="CanvasTopUI/Top/HighScoreContainer"]
 modulate = Color(0.996078, 0.827451, 0.223529, 1)
-custom_minimum_size = Vector2(32, 0)
+custom_minimum_size = Vector2(24, 0)
 layout_mode = 2
 texture = ExtResource("7_shme8")
 expand_mode = 1
@@ -347,7 +357,7 @@ vertical_alignment = 1
 
 [node name="RightTrophy" type="TextureRect" parent="CanvasTopUI/Top/HighScoreContainer"]
 modulate = Color(0.996078, 0.827451, 0.223529, 1)
-custom_minimum_size = Vector2(32, 0)
+custom_minimum_size = Vector2(24, 0)
 layout_mode = 2
 texture = ExtResource("7_shme8")
 expand_mode = 1
@@ -391,18 +401,10 @@ tile_set = ExtResource("8_p11fo")
 format = 2
 layer_0/name = "Blocks"
 layer_1/name = "Ghost"
-layer_1/enabled = true
 layer_1/modulate = Color(1, 1, 1, 0.462745)
-layer_1/y_sort_enabled = false
-layer_1/y_sort_origin = 0
-layer_1/z_index = 0
 layer_1/tile_data = PackedInt32Array()
 layer_2/name = "Test"
-layer_2/enabled = true
 layer_2/modulate = Color(1, 1, 1, 0)
-layer_2/y_sort_enabled = false
-layer_2/y_sort_origin = 0
-layer_2/z_index = 0
 layer_2/tile_data = PackedInt32Array()
 
 [node name="Camera" type="Camera2D" parent="Game"]

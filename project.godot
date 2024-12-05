@@ -12,7 +12,7 @@ config_version=5
 
 config/name="blokki"
 run/main_scene="res://intro.tscn"
-config/features=PackedStringArray("4.1", "GL Compatibility")
+config/features=PackedStringArray("4.2", "GL Compatibility")
 boot_splash/bg_color=Color(0, 0, 0, 1)
 boot_splash/image="res://ui/boot.png"
 config/icon="res://ui/icon.png"

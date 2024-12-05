@@ -181,7 +181,7 @@ func remove_complete_lines():
 	var marked_for_deletion = []
 	var deleted_rows = []
 	var deleted_columns = []
-	var score_multiplier = 0
+	var score_multiplier = 1
 	
 	deleted_rows.resize(Global.GRID_SIZE.y)
 	deleted_rows.fill(false)
@@ -195,7 +195,7 @@ func remove_complete_lines():
 				delete_row = false
 		
 		if delete_row:
-			score_multiplier += 1
+			score_multiplier *= 2
 			deleted_rows[y] = true
 			for x in range(Global.GRID_SIZE.x):
 				marked_for_deletion.append(Vector2i(x, y))
@@ -207,10 +207,12 @@ func remove_complete_lines():
 				delete_column = false
 		
 		if delete_column:
-			score_multiplier += 1
+			score_multiplier *= 2
 			deleted_columns[x] = true
 			for y in range(Global.GRID_SIZE.y):
 				marked_for_deletion.append(Vector2i(x, y))
+	
+	score_multiplier /= 2
 	
 	for cell in marked_for_deletion:
 		%Grid.erase_cell(0, cell)
@@ -253,7 +255,7 @@ func place_pattern():
 	
 	game_ongoing = true
 	
-	score += new_used_cells.size()
+	#score += new_used_cells.size()
 	
 	remove_complete_lines()
 	reset_slot(placing_slot)
