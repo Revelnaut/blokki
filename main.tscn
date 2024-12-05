@@ -197,6 +197,7 @@ position = Vector2(288, 0)
 
 [node name="SettingsPanel" type="Panel" parent="CanvasUIOverlay"]
 unique_name_in_owner = true
+visible = false
 self_modulate = Color(1, 1, 1, 0.862745)
 anchors_preset = 15
 anchor_right = 1.0
@@ -250,14 +251,6 @@ step = 0.01
 
 [node name="HSeparator" type="HSeparator" parent="CanvasUIOverlay/SettingsPanel/Panel/CenterContainer/VBoxContainer"]
 layout_mode = 2
-
-[node name="HighScoreToggle" type="CheckButton" parent="CanvasUIOverlay/SettingsPanel/Panel/CenterContainer/VBoxContainer"]
-layout_mode = 2
-text = "Show high score"
-
-[node name="ScoreToggle" type="CheckButton" parent="CanvasUIOverlay/SettingsPanel/Panel/CenterContainer/VBoxContainer"]
-layout_mode = 2
-text = "Show score"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasUIOverlay/SettingsPanel/Panel/CenterContainer/VBoxContainer"]
 layout_mode = 2
@@ -402,10 +395,8 @@ format = 2
 layer_0/name = "Blocks"
 layer_1/name = "Ghost"
 layer_1/modulate = Color(1, 1, 1, 0.462745)
-layer_1/tile_data = PackedInt32Array()
 layer_2/name = "Test"
 layer_2/modulate = Color(1, 1, 1, 0)
-layer_2/tile_data = PackedInt32Array()
 
 [node name="Camera" type="Camera2D" parent="Game"]
 unique_name_in_owner = true
